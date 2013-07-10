@@ -1,0 +1,42 @@
+README
+
+==BUILDING==
+
+Provided is a simple makefile. To build the project, use the make command. You
+can run it with make run 
+
+==TODO==
+
+-This raytracer was written for my graphics class at BYU (CS 455). A major
+porition of this class, was focused on reimplementing a subset of OpenGL's
+commands. I started this project by simply copying and pasting my
+OpenGL-reimplemenation project so that I could reuse some of my existing code
+(e.g. the classes I used for matrices, mathematical vectors, and a class for
+managing the raster). I still need to remove this extra code from the
+repository. The raytracer is not tightly coupled to this extra code, but it is
+still going to take some time to disentangle.
+
+-Simplify and improve the makefile. As of now, the dependencies for the targets
+might not be entirely right.
+
+-Add simple refraction.
+
+-Add lens distortion.
+
+-Upgrade to C++ and remove dependency on boost
+
+==COPYRIGHT AND WARRANTY==
+
+Copyright (c) 2013, Ty G. Lewis
+All rights reserved.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL TY G. LEWIS BE LIABLE FOR ANY
+DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+(INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
