@@ -23,7 +23,7 @@ might not be entirely right.
 
 -Add lens distortion.
 
--Upgrade to C++ and remove dependency on boost
+-Upgrade to C++ 11 and remove dependency on boost
 
 ==COPYRIGHT AND WARRANTY==
 
