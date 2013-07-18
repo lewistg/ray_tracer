@@ -68,26 +68,15 @@ void setupRC();
  */
 void reshapeWindow(int, int);
 
-
 /**
  * This function is the callback for establishing the timer for redrawing the scene.
  */
 void timerFunc(int);
 
 /**
- * Callback for keyboard interaction
- */
-void keyPressed(unsigned char key, int x, int y);
-
-/**
- * Checks for a special key press
- */
-void specialKeyPressed(int key, int x, int y);
-
-/**
  * Draws the scene.
  */
-void drawScene();
+void drawRaster();
 
 extern int NUM_SCENES2;
 extern vector<void (* )()> scenes2;
@@ -165,8 +154,6 @@ void* rayThread(void* argument)
     scene.addLight(&light);
     scene.addLight(&light2);    
     
-    
-    //cout << "hello there\n" << endl;
     rayTracer.trace(scene);
     return NULL;
 }
@@ -177,24 +164,16 @@ int main(int argc, char* argv[])
     int threadArgs;
     pthread_create(&rayTraceThread, NULL, rayThread, (void*) &threadArgs);
     
-    //rayTracer.trace();
-
-    initProj3Scenes();
-    //initProj2Scenes();
-    //applyBlackToWhiteGradient(&raster);
-
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowSize(640, 480);
-    glutCreateWindow("Base Code");
+    glutCreateWindow("Ray tracer");
     glewInit();
 
     setupRC();
 
-    glutKeyboardFunc(keyPressed);
-    glutSpecialFunc(specialKeyPressed);
     glutReshapeFunc(reshapeWindow);
-    glutDisplayFunc(drawScene);
+    glutDisplayFunc(drawRaster);
     glutTimerFunc(33, timerFunc, 1);
 
     glutMainLoop();
@@ -219,10 +198,9 @@ void reshapeWindow(int w, int h)
 	
 	byu_glMatrixMode(GL_MODELVIEW);
 	byu_glLoadIdentity();
-	//glOrtho(0, 640, 0, 480, -1, 1); // only for project 2; delete thereafter!
 }
 
-void drawScene()
+void drawRaster()
 {   
     GLint oldMatrixMode;
     GLboolean depthWasEnabled = glIsEnabled(GL_DEPTH_TEST);
@@ -232,8 +210,6 @@ void drawScene()
     glMatrixMode(GL_PROJECTION); glPushMatrix(); glLoadIdentity();
 
     glRasterPos2f(-1, -1);
-    //glDrawPixels(640, 480, GL_RGBA, GL_FLOAT, Raster::getInstance()->getData());
-    //glDrawPixels(640, 480, GL_RGBA, GL_FLOAT, screen.getRasterData());
     glDrawPixels(640, 480, GL_RGBA, GL_FLOAT, camera.getScreen().getRasterData());
 
     glPopMatrix();
@@ -245,45 +221,8 @@ void drawScene()
     glutSwapBuffers();
 }
 
-void timerFunc(int value)
+void timerFunc(int /*value*/)
 {
 	glutPostRedisplay();
 	glutTimerFunc(33, timerFunc, 1);		
-}
-
-void keyPressed(unsigned char key, int x, int y)
-{   
-	if(key == '1')
-	    byu_setDrawMode(GL_MODE);
-	else if(key == '2')
-	    byu_setDrawMode(BYU_MODE);
-	else if(key == 'q')
-	    glutDisplayFunc(drawTriangles);
-	else if(key == 'w')
-	    glutDisplayFunc(drawLines);
-	else if(key == 'd')
-	    byu_glEnable(GL_DEPTH_TEST);
-	
-	glutPostRedisplay();
-}
-
-void specialKeyPressed(int key, int x, int y)
-{
-    /*static const int RIGHT_ARROW_KEY = 102;
-    static const int LEFT_ARROW_KEY = 100;
-    
-    static int currentScene = 0;
-    if(key == RIGHT_ARROW_KEY)
-	currentScene += 1;
-    else if(key == LEFT_ARROW_KEY)
-	currentScene -= 1;
-    
-    if(currentScene == NUM_SCENES2)
-	currentScene = 0;
-    else if(currentScene < 0)
-	currentScene = NUM_SCENES2 - 1;
-    
-    cout << currentScene << endl;
-    
-    glutDisplayFunc(scenes2[currentScene]);*/
 }

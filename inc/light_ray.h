@@ -34,7 +34,7 @@ class LightRay: public Ray
          * @param pos
          * @param dir
          */
-	LightRay(const Vector4f& pos, const Vector4f& dir, int depth);
+	LightRay(const Vector4f& pos, const Vector4f& dir, int recursiveDepth);
 	
 	/**
 	 * Gets the color
@@ -59,8 +59,8 @@ class LightRay: public Ray
     private:
 	/**The color of the light ray*/
 	Vector4f _color;
-	/**The "depth" of the ray*/
-	int _depth;
+	/**The "recursive depth" of the ray*/
+	int _recursiveDepth;
 	
 };
 

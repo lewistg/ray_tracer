@@ -16,9 +16,9 @@
 
 #include "light_ray.h"
 
-LightRay::LightRay(const Vector4f& pos, const Vector4f& dir, int depth):Ray(pos, dir), 
+LightRay::LightRay(const Vector4f& pos, const Vector4f& dir, int recursiveDepth):Ray(pos, dir), 
 	_color(0.0f, 0.0f, 0.0f, 1.0f),
-	_depth(depth)
+	_recursiveDepth(recursiveDepth)
 {
     
 }
@@ -35,7 +35,7 @@ void LightRay::setColor(const Vector4f& color)
 
 int LightRay::getDepth()
 {
-    return _depth;
+    return _recursiveDepth;
 }
 
 void LightRay::addPertb()
