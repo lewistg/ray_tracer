@@ -7,15 +7,6 @@ can run it with make run
 
 ==TODO==
 
--This raytracer was written for my graphics class at BYU (CS 455). A major
-porition of this class, was focused on reimplementing a subset of OpenGL's
-commands. I started this project by simply copying and pasting my
-OpenGL-reimplemenation project so that I could reuse some of my existing code
-(e.g. the classes I used for matrices, mathematical vectors, and a class for
-managing the raster). I still need to remove this extra code from the
-repository. The raytracer is not tightly coupled to this extra code, but it is
-still going to take some time to disentangle.
-
 -Simplify and improve the makefile. As of now, the dependencies for the targets
 might not be entirely right.
 
