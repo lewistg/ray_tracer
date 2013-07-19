@@ -25,7 +25,6 @@
 #include "matrix.h"
 #include "vector.h"
 #include "raster.h"
-#include "scenes.h"
 #include "screen.h"
 #include "ray_tracer.h"
 #include "rtriangle.h"
