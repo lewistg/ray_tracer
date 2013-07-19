@@ -25,41 +25,41 @@
 /**
  * Represents a triangle that can be raytraced
  */
-class RTriangle: public IlluminatedObject
+class RTriangle: public IlluminatedObject 
 {
-    public:
-	/**
-	 * Constructs a new triangle from three points
-         * @param p0
-         * @param p1
-         * @param p2
-         */
-	RTriangle(const Vector4f& p0, const Vector4f& p1, const Vector4f& p2);
-	
-	/**
-	 * Override
-	 */
-	virtual float rayStrikesObject(const Ray& ray);
-	
-    protected:
-	/**
-	 * Override
-         */
-	virtual Vector4f getNormal(const Vector4f& pointOnObj) const;
-	
-    private:
-	/**Vertices of the triangle*/
-	Vector4f _p0;
-	Vector4f _p1;
-	Vector4f _p2;
-	/**Plane that contains the triangle*/
-	Plane _plane;
-	
-	/**
-	 * Helper for evaluating if a barycentric coordinate
-	 * is within the triangle
-	 */
-	bool withinTri(float lambda);
+	public:
+		/**
+		 * Constructs a new triangle from three points
+		 * @param p0
+		 * @param p1
+		 * @param p2
+		 */
+		RTriangle(const Vector4f& p0, const Vector4f& p1, const Vector4f& p2);
+
+		/**
+		 * Override
+		 */
+		virtual float rayStrikesObject(const Ray& ray);
+
+	protected:
+		/**
+		 * Override
+		 */
+		virtual Vector4f getNormal(const Vector4f& pointOnObj) const;
+
+	private:
+		/**Vertices of the triangle*/
+		Vector4f _p0;
+		Vector4f _p1;
+		Vector4f _p2;
+		/**Plane that contains the triangle*/
+		Plane _plane;
+
+		/**
+		 * Helper for evaluating if a barycentric coordinate
+		 * is within the triangle
+		 */
+		bool withinTri(float lambda);
 };
 
 #endif

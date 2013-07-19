@@ -28,87 +28,87 @@ class Scene;
  * light of some kind. Contains material information about
  * the object as well.
  */
-class IlluminatedObject
+class IlluminatedObject 
 {
-    public:
-	/**
-	 * No-arg constructor
-         */
-	IlluminatedObject();
-	
-	
-	/**
-	 * Indicates whether or not a ray strikes the object
-         * @param ray
-         * @return -1 if the ray doesn't strike the object, otherwise the positive
-	 * parameter value for t to strike the object
-         */
-	virtual float rayStrikesObject(const Ray& ray);
-	
-	/**
-	 * Sets the color of the object
-         * @param color
-         */
-	void setColor(const Vector4f color);
-	
-	/**
-	 * Gets the color for the object 
-         */
-	Vector4f getColor() const;
-	
-	/**
-	 * Sets the diffuse and ambient coefficient
-         */
-	void setDiffAmbCoeff(float kAmbDiff);
-	
-	/**
-	 * Sets the reflectivity coefficient
-         */
-	void setReflCoeff(float kRefl);
-	
-	/**
-	 * Loads the light ray with the intensity that results from
-	 * being traced from this object. 
-         * @param lightRay
-	 * @param scene 
-	 * @pre The light ray's current parameterized point is a point on the
-	 * surface of the object
-         */
-	void getIntensity(LightRay* lightRay, const Scene& scene) const;
-	
-    protected:
-	/**
-	 * Custom minimum function that finds the minimum of two t values,
-	 * filtering out t's that are very small. If neither of the t's are
-	 * positive or significant -1 is returned.
-	 */
-	float minAndSig(float t1, float t2);
-	
-	/**
-	 * Gets the normal at a point on the object
-         * @param t
-         * @return 
-         */
-	virtual Vector4f getNormal(const Vector4f& pointOnObj) const = 0;
-	
-	/**
-	 * Helper function for preventing intersecting with same
-	 * object at the same point
-	 */
-	bool verySmall(float t) const;
-	
-    private:
-	/**Color of the object*/
-	Vector4f _color;
-	/**The reflection coefficient, somewhere in the range [0, 1]*/
-	float _kReflect;
-	/**The diffuse and ambient coefficient, somewhere in the range [0, 1]*/
-	float _kDiffuse;
-	
-	/**
-	 * Helper function for tracing reflected rays
-	 */
-	//void traceReflection(LightRay* reflectedRay, const Scene& scene)
+	public:
+		/**
+		 * No-arg constructor
+		 */
+		IlluminatedObject();
+
+
+		/**
+		 * Indicates whether or not a ray strikes the object
+		 * @param ray
+		 * @return -1 if the ray doesn't strike the object, otherwise the positive
+		 * parameter value for t to strike the object
+		 */
+		virtual float rayStrikesObject(const Ray& ray);
+
+		/**
+		 * Sets the color of the object
+		 * @param color
+		 */
+		void setColor(const Vector4f color);
+
+		/**
+		 * Gets the color for the object 
+		 */
+		Vector4f getColor() const;
+
+		/**
+		 * Sets the diffuse and ambient coefficient
+		 */
+		void setDiffAmbCoeff(float kAmbDiff);
+
+		/**
+		 * Sets the reflectivity coefficient
+		 */
+		void setReflCoeff(float kRefl);
+
+		/**
+		 * Loads the light ray with the intensity that results from
+		 * being traced from this object. 
+		 * @param lightRay
+		 * @param scene 
+		 * @pre The light ray's current parameterized point is a point on the
+		 * surface of the object
+		 */
+		void getIntensity(LightRay& lightRay, const Scene& scene) const;
+
+	protected:
+		/**
+		 * Custom min function that finds the minimum of two t values,
+		 * filtering out t's that are very small. If neither of the t's are
+		 * positive or significant -1 is returned.
+		 */
+		float minAndSig(float t1, float t2);
+
+		/**
+		 * Gets the normal at a point on the object
+		 * @param t
+		 * @return 
+		 */
+		virtual Vector4f getNormal(const Vector4f& pointOnObj) const = 0;
+
+		/**
+		 * Helper function for preventing intersecting with same
+		 * object at the same point
+		 */
+		bool verySmall(float t) const;
+
+	private:
+		/**Color of the object*/
+		Vector4f _color;
+		/**The reflection coefficient, somewhere in the range [0, 1]*/
+		float _kReflect;
+		/**The diffuse and ambient coefficient, somewhere in the range [0, 1]*/
+		float _kDiffuse;
+
+		/**
+		 * Helper function for tracing reflected rays
+		 */
+		//void traceReflection(LightRay* reflectedRay, const Scene& scene)
 };
 
 #endif

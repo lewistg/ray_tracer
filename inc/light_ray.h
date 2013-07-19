@@ -22,7 +22,6 @@
 #include "vector4f.h"
 #include "ray.h"
 
-
 /**
  * A ray that can be colored
  */
@@ -31,9 +30,9 @@ class LightRay: public Ray
     public:
 	/**
 	 * Constructor
-         * @param pos
-         * @param dir
-         */
+	 * @param pos
+	 * @param dir
+	 */
 	LightRay(const Vector4f& pos, const Vector4f& dir, int recursiveDepth);
 	
 	/**
@@ -59,9 +58,10 @@ class LightRay: public Ray
     private:
 	/**The color of the light ray*/
 	Vector4f _color;
+	/**The the refractive index of the medium this ray is passing through*/ 
+	float _mediumRefractIndex;
 	/**The "recursive depth" of the ray*/
 	int _recursiveDepth;
-	
 };
 
 #endif

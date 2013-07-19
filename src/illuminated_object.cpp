@@ -59,84 +59,69 @@ Vector4f IlluminatedObject::getColor() const
     return _color;
 }
 
-/**
- * Sets the intensity for the light ray
- */
-void IlluminatedObject::getIntensity(LightRay* lightRay, const Scene& scene) const
+void IlluminatedObject::getIntensity(LightRay& lightRay, const Scene& scene) const
 {
-    assert(lightRay != NULL);
-    //lightRay->setColor(_color);
-    
-    // shoot a shadow ray at each light
-    Vector4f illumRaysColor(0.0f, 0.0f, 0.0f, 1.0f);
-    
-    // The diffuse and ambient light
-    Vector4f diffAmbLight;
-    vector<LambertLight*> lightsInScene = scene.getLights();
-    for(vector<LambertLight*>::const_iterator lightsItr = lightsInScene.begin();
-	    lightsItr != lightsInScene.end();
-	    ++lightsItr)
-    {
-	// create a ray from intersection to the light
-	Vector4f rayOrigin = lightRay->getPoint();
-	Vector4f dirToLight = sub((*lightsItr)->getPos(), rayOrigin);
-	float distToLight = mag3f(dirToLight);
-	normalize(&dirToLight);
-	Ray rayToLight(rayOrigin, dirToLight);
-	
-	// if nothing is obstructing the light reaching the object
-	const IlluminatedObject* obstructingObj = scene.closestObj(&rayToLight);
-	float distToHider = ((obstructingObj == NULL) ? 
-					FLT_MAX : 
-					mag3f(sub(rayToLight.getOrigin(), rayToLight.getPoint())));
-	
-	//if(obstructingObj == NULL)
-	if(distToLight < distToHider)
-	{
-	    float shade = max(dot3f(getNormal(lightRay->getPoint()), dirToLight), 0.0f);	    
-	    Vector4f diffComp = scale((*lightsItr)->getDiffuse(), shade);
-	    diffAmbLight = add(diffAmbLight, diffComp);
-	    diffAmbLight = add(diffAmbLight, (*lightsItr)->getAmbient());
-	}
-	else
-	{
-	    diffAmbLight = add(diffAmbLight, (*lightsItr)->getAmbient());
-	}
-	//diffAmbLight = add(diffAmbLight, (*lightsItr)->getAmbient());
-    }
-    
-    Vector4f intensity = pwMult(getColor(), diffAmbLight);
-    intensity = scale(intensity, _kDiffuse);
-    //cout << intensity.toString() << endl;
-    
-    // shoot reflected ray if we aren't too deep in recursion
-    if(lightRay->getDepth() < 8)
-    {
-	float c1 = -dot3f(getNormal(lightRay->getPoint()), lightRay->getDir());
-	Vector4f reflectedDir = add(lightRay->getDir(), scale(getNormal(lightRay->getPoint()), 2 * c1));
-	LightRay reflectedRay(lightRay->getPoint(), reflectedDir, lightRay->getDepth() + 1);
-	
-	// create a soft shadow
-	//reflectedRay.addPertb();
+	// shoot a shadow ray at each light
+	Vector4f illumRaysColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-	const IlluminatedObject* object = scene.closestObj(&reflectedRay);
-	if(object != NULL)
+	// The diffuse and ambient light
+	Vector4f diffAmbLight;
+	vector<LambertLight*> lightsInScene = scene.getLights();
+	for (vector<LambertLight*>::const_iterator lightsItr = lightsInScene.begin();
+			lightsItr != lightsInScene.end();
+			lightsItr++)
 	{
-	    object->getIntensity(&reflectedRay, scene);
-	    illumRaysColor = add(illumRaysColor, scale(reflectedRay.getColor(), .5));
+		// create a ray from intersection to the light
+		Vector4f rayOrigin = lightRay.getPoint();
+		Vector4f dirToLight = sub((*lightsItr)->getPos(), rayOrigin);
+		float distToLight = mag3f(dirToLight);
+		normalize(&dirToLight);
+		Ray rayToLight(rayOrigin, dirToLight);
+
+		const IlluminatedObject* obstructingObj = scene.closestObj(&rayToLight);
+		float distToHider = ((obstructingObj == NULL) ?
+				FLT_MAX :
+				mag3f(sub(rayToLight.getOrigin(), rayToLight.getPoint())));
+
+		// if nothing is obstructing the light reaching the object, calculate 
+		// diffuse lighting
+		if (distToLight < distToHider)
+		{
+			float shade = max(dot3f(getNormal(lightRay.getPoint()), dirToLight), 0.0f);
+			Vector4f diffComp = scale((*lightsItr)->getDiffuse(), shade);
+			diffAmbLight = add(diffAmbLight, diffComp);
+		} 
+
+		diffAmbLight = add(diffAmbLight, (*lightsItr)->getAmbient());
 	}
-	
-	intensity = add(intensity, scale(reflectedRay.getColor(), _kReflect));
-    }
-    
-    lightRay->setColor(intensity);
-    
-    //lightRay->setColor(illumRaysColor);
-    
-    
-    // shoot a reflection ray
-    
-    // combine the rays
+
+	Vector4f intensity = pwMult(getColor(), diffAmbLight);
+	intensity = scale(intensity, _kDiffuse);
+
+	// shoot reflected ray if we aren't too deep in recursion
+	if (lightRay.getDepth() < 8)
+	{
+		float c1 = -dot3f(getNormal(lightRay.getPoint()), lightRay.getDir());
+		Vector4f reflectedDir = add(lightRay.getDir(), scale(getNormal(lightRay.getPoint()), 2 * c1));
+		LightRay reflectedRay(lightRay.getPoint(), reflectedDir, lightRay.getDepth() + 1);
+
+		const IlluminatedObject* object = scene.closestObj(&reflectedRay);
+		if (object != NULL)
+		{
+			object->getIntensity(reflectedRay, scene);
+			illumRaysColor = add(illumRaysColor, scale(reflectedRay.getColor(), .5));
+		}
+
+		intensity = add(intensity, scale(reflectedRay.getColor(), _kReflect));
+	}
+
+	// shoot refraction rays if we aren't too deep into recursion
+	if(lightRay.getDepth() < 8)
+	{
+
+	}
+
+	lightRay.setColor(intensity);
 }
 
 bool IlluminatedObject::verySmall(float t) const
@@ -146,17 +131,17 @@ bool IlluminatedObject::verySmall(float t) const
 
 float IlluminatedObject::minAndSig(float t1, float t2)
 {
-    if(t1 > 0 && !verySmall(t1))
-    {
-	if(t2 > 0 && !verySmall(t2))
-	    return min(t1, t2);
-	else
-	    return t1;
-    }
-    else if(t2 > 0 && !verySmall(t2))
-    {
-	return t2;
-    }
+	if (t1 > 0 && !verySmall(t1))
+	{
+		if (t2 > 0 && !verySmall(t2))
+			return min(t1, t2);
+		else
+			return t1;
+	} 
+	else if (t2 > 0 && !verySmall(t2))
+	{
+		return t2;
+	}
     
     return -1;
 }

@@ -34,22 +34,22 @@ class Ray
 	
 	/**
 	 * Sets the current t
-         * @param t
-         * @return 
-         */
+	 * @param t
+	 * @return 
+	 */
 	void setParam(float t);
 	
 	/**
 	 * Sets the direction of the ray
-         * @return 
-         */
+	 * @return 
+	 */
 	void setDir(const Vector4f dir);
 	
 	/**
 	 * Gets the point associated with the current param
-         * @param t
-         * @return 
-         */
+	 * @param t
+	 * @return 
+	 */
 	Vector4f getPoint();
 	
 	/**
@@ -70,8 +70,8 @@ class Ray
 	
 	/**
 	 * Gets the current parameter
-         * @return 
-         */
+	 * @return 
+	 */
 	float getParam();
 	
 	/**

@@ -41,10 +41,10 @@ class ScreenRaster
 
 	    /**
 	     * Sets a pixel in the raster to a certain color
-             * @param x
-             * @param y
-             * @return 
-             */
+		 * @param x
+		 * @param y
+		 * @return 
+		 */
 	    void setPixel(int x, int y, const float pixelData[]);
 
 	    /**

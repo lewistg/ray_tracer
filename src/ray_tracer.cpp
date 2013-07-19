@@ -54,7 +54,7 @@ void RayTracer::trace(const Scene& scene)
 				const IlluminatedObject* object = scene.closestObj(&pixRay);
 				if (object != NULL)
 				{
-					object->getIntensity(&pixRay, scene);
+					object->getIntensity(pixRay, scene);
 					//_screen->setPixel(x, y, hitColor);
 					//_screen->setPixel(x, y, object->getColor());
 					//_screen->setPixel(x, y, pixRay.getColor());
