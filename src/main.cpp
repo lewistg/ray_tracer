@@ -25,7 +25,6 @@
 #include "matrix.h"
 #include "vector.h"
 #include "raster.h"
-#include "byu_gl.h"
 #include "scenes.h"
 #include "screen.h"
 #include "ray_tracer.h"
@@ -130,17 +129,17 @@ void* rayThread(void* argument)
     ceilingWall.setColor(Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
     ceilingWall.setReflCoeff(.2);     
     
-    LambertLight light;
+    LambertLight light0;
     //light.setPos(Vector4f(0.0f, 0.0f, 10.0f, 1.0f));
-    light.setPos(Vector4f(-20.0f, 20.0f, 100.0f, 1.0f));
-    light.setDiffuse(Vector4f(0.75f, 0.75f, 0.6f, 1.0f));
-    light.setAmbient(Vector4f(0.01f, 0.01f, 0.01f, 1.0f));
+    light0.setPos(Vector4f(-20.0f, 20.0f, 100.0f, 1.0f));
+    light0.setDiffuse(Vector4f(0.75f, 0.75f, 0.6f, 1.0f));
+    light0.setAmbient(Vector4f(0.01f, 0.01f, 0.01f, 1.0f));
     
-    LambertLight light2;
-    light2.setPos(Vector4f(20.0f, 20.0f, 100.0f, 1.0f));
+    LambertLight light1;
+    light1.setPos(Vector4f(20.0f, 20.0f, 100.0f, 1.0f));
     //light2.setPos(Vector4f(0.0f, 0.0f, -500.0f, 1.0f));
-    light2.setDiffuse(Vector4f(0.5f, 0.5f, 0.4f, 1.0f));
-    light2.setAmbient(Vector4f(0.01f, 0.01f, 0.01f, 1.0f));
+    light1.setDiffuse(Vector4f(0.5f, 0.5f, 0.4f, 1.0f));
+    light1.setAmbient(Vector4f(0.01f, 0.01f, 0.01f, 1.0f));
     
     Scene scene;
     scene.addObject(&sphereA);
@@ -151,8 +150,8 @@ void* rayThread(void* argument)
     scene.addObject(&backWall);
     //scene.addObject(&frontWall);
     //scene.addObject(&ceilingWall);
-    scene.addLight(&light);
-    scene.addLight(&light2);    
+    scene.addLight(&light0);
+    scene.addLight(&light1);    
     
     rayTracer.trace(scene);
     return NULL;
@@ -181,23 +180,18 @@ int main(int argc, char* argv[])
 
 void setupRC()
 {
-	// set white background
-	byu_glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
-	float clearColor[] = {.5, 0, .5, 1};
-	Raster::getInstance()->setAllPixels(clearColor);
+	glClearColor(1.0f, 1.0f, 0.0f, 1.0f);
 }
 
 void reshapeWindow(int w, int h)
 {
-	// set viewport to the window dimensions
-	byu_glViewport(0, 0, w, h);
+	glViewport(0, 0, w, h);
 	
-	// reset the coordinate system
-	byu_glMatrixMode(GL_PROJECTION);
-	byu_glLoadIdentity();
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
 	
-	byu_glMatrixMode(GL_MODELVIEW);
-	byu_glLoadIdentity();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
 }
 
 void drawRaster()

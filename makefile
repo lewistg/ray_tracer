@@ -58,12 +58,34 @@ OBJS = $(OBJ)main.o \
 	$(OBJ)camera.o\
 	$(OBJ)plane.o \
 	$(OBJ)rtriangle.o
-	
+
+RTOBJS = $(OBJ)main.o \
+	$(OBJ)ray_tracer.o\
+	$(OBJ)eye.o\
+	$(OBJ)screen.o\
+	$(OBJ)ray.o\
+	$(OBJ)illuminated_object.o\
+	$(OBJ)math_utils.o\
+	$(OBJ)sphere.o\
+	$(OBJ)lambert_light.o\
+	$(OBJ)scene.o\
+	$(OBJ)light_ray.o\
+	$(OBJ)camera.o\
+	$(OBJ)plane.o\
+	$(OBJ)rtriangle.o\
+	$(OBJ)matrix.o \
+	$(OBJ)vector.o \
+	$(OBJ)vector4f.o \
+	$(OBJ)matrix4f.o \
+	$(OBJ)vertex.o \
+	$(OBJ)square_matrix_stack.o \
+	$(OBJ)matrix4f_stack.o \
+	$(OBJ)screen_raster.o 
 
 # main program
 
-gl: $(OBJS) 
-	g++ -o $(BIN)gl $(OBJS) -lglut -lGLU -lGL -lGLEW
+gl: $(RTOBJS) 
+	g++ -o $(BIN)gl $(RTOBJS) -lglut -lGLU -lGL -lGLEW
 
 $(OBJ)main.o: $(SRC)main.cpp $(INC)matrix.h
 	g++ -c -g -o $(OBJ)main.o -I$(INC) $(SRC)main.cpp
@@ -109,16 +131,14 @@ $(OBJ)plane.o: $(SRC)plane.cpp $(INC)plane.h
 $(OBJ)rtriangle.o: $(SRC)rtriangle.cpp $(INC)rtriangle.h
 	g++ -c -g -o $(OBJ)rtriangle.o -I$(INC) $(SRC)rtriangle.cpp
 
-# software implementation of opengl
+$(OBJ)vector.o: $(SRC)vector.cpp $(INC)vector.h
+	g++ -c -g -o $(OBJ)vector.o -I$(INC) $(SRC)vector.cpp
 
 $(OBJ)byu_gl.o: $(SRC)byu_gl.cpp $(INC)byu_gl.h
 	g++ -c -g -o $(OBJ)byu_gl.o -I$(INC) $(SRC)byu_gl.cpp
 
 $(OBJ)matrix.o: $(SRC)matrix.cpp $(INC)matrix.h
 	g++ -c -g -o $(OBJ)matrix.o -I$(INC) $(SRC)matrix.cpp
-	
-$(OBJ)vector.o: $(SRC)vector.cpp $(INC)vector.h
-	g++ -c -g -o $(OBJ)vector.o -I$(INC) $(SRC)vector.cpp
 
 $(OBJ)vector4f.o: $(SRC)vector4f.cpp $(INC)vector4f.h $(INC)vector.h
 	g++ -c -g -o $(OBJ)vector4f.o -I$(INC) $(SRC)vector4f.cpp
@@ -138,83 +158,115 @@ $(OBJ)matrix4f_stack.o: $(SRC)matrix4f_stack.cpp $(INC)matrix4f_stack.h $(INC)ma
 $(OBJ)raster.o: $(SRC)raster.cpp $(INC)raster.h
 	g++ -c -g -o $(OBJ)raster.o -I$(INC) $(SRC)raster.cpp
 
-$(OBJ)geometry_pipeline.o: $(SRC)geometry_pipeline.cpp $(INC)geometry_pipeline.h
-	g++ -c -g -o $(OBJ)geometry_pipeline.o -I$(INC) $(SRC)geometry_pipeline.cpp
-
-$(OBJ)graphics_state.o: $(SRC)graphics_state.cpp $(INC)graphics_state.h
-	g++ -c -g -o $(OBJ)graphics_state.o -I$(INC) $(SRC)graphics_state.cpp
-
-$(OBJ)vertex_buffer.o: $(SRC)vertex_buffer.cpp $(INC)vertex_buffer.h
-	g++ -c -g -o $(OBJ)vertex_buffer.o -I$(INC) $(SRC)vertex_buffer.cpp
-
-$(OBJ)draw_command.o: $(SRC)draw_command.cpp $(INC)draw_command.h
-	g++ -c -g -o $(OBJ)draw_command.o -I$(INC) $(SRC)draw_command.cpp
-
-$(OBJ)draw_command_factory.o: $(SRC)draw_command_factory.cpp $(INC)draw_command_factory.h
-	g++ -c -g -o $(OBJ)draw_command_factory.o -I$(INC) $(SRC)draw_command_factory.cpp
-
-$(OBJ)draw_points.o: $(SRC)draw_points.cpp $(INC)draw_points.h
-	g++ -c -g -o $(OBJ)draw_points.o -I$(INC) $(SRC)draw_points.cpp
-
-$(OBJ)draw_smooth_point.o: $(SRC)draw_smooth_point.cpp $(INC)draw_smooth_point.h
-	g++ -c -g -o $(OBJ)draw_smooth_point.o -I$(INC) $(SRC)draw_smooth_point.cpp
-
-$(OBJ)draw_triangle.o: $(SRC)draw_triangle.cpp $(INC)draw_triangle.h
-	g++ -c -g -o $(OBJ)draw_triangle.o -I$(INC) $(SRC)draw_triangle.cpp
-
-$(OBJ)draw_triangles.o: $(SRC)draw_triangles.cpp $(INC)draw_triangles.h
-	g++ -c -g -o $(OBJ)draw_triangles.o -I$(INC) $(SRC)draw_triangles.cpp
-
-$(OBJ)draw_quads.o: $(SRC)draw_quads.cpp $(INC)draw_quads.h
-	g++ -c -g -o $(OBJ)draw_quads.o -I$(INC) $(SRC)draw_quads.cpp
-
-$(OBJ)draw_quad_strip.o: $(SRC)draw_quad_strip.cpp $(INC)draw_quad_strip.h
-	g++ -c -g -o $(OBJ)draw_quad_strip.o -I$(INC) $(SRC)draw_quad_strip.cpp
-
-$(OBJ)draw_triangle_strip.o: $(SRC)draw_triangle_strip.cpp $(INC)draw_triangle_strip.h
-	g++ -c -g -o $(OBJ)draw_triangle_strip.o -I$(INC) $(SRC)draw_triangle_strip.cpp
-
-$(OBJ)draw_triangle_fan.o: $(SRC)draw_triangle_fan.cpp $(INC)draw_triangle_fan.h
-	g++ -c -g -o $(OBJ)draw_triangle_fan.o -I$(INC) $(SRC)draw_triangle_fan.cpp
-
-$(OBJ)draw_bresenham_line.o: $(SRC)draw_bresenham_line.cpp $(INC)draw_bresenham_line.h
-	g++ -c -g -o $(OBJ)draw_bresenham_line.o -I$(INC) $(SRC)draw_bresenham_line.cpp
-
-$(OBJ)draw_dda_line.o: $(SRC)draw_dda_line.cpp $(INC)draw_dda_line.h
-	g++ -c -g -o $(OBJ)draw_dda_line.o -I$(INC) $(SRC)draw_dda_line.cpp
-
-$(OBJ)draw_bres_line.o: $(SRC)draw_bres_line.cpp $(INC)draw_bres_line.h
-	g++ -c -g -o $(OBJ)draw_bres_line.o -I$(INC) $(SRC)draw_bres_line.cpp
-
-$(OBJ)draw_line_strip.o: $(SRC)draw_line_strip.cpp $(INC)draw_line_strip.h
-	g++ -c -g -o $(OBJ)draw_line_strip.o -I$(INC) $(SRC)draw_line_strip.cpp
-
-$(OBJ)draw_line_loop.o: $(SRC)draw_line_loop.cpp $(INC)draw_line_loop.h
-	g++ -c -g -o $(OBJ)draw_line_loop.o -I$(INC) $(SRC)draw_line_loop.cpp
-
-$(OBJ)draw_bres_edge.o: $(SRC)draw_bres_edge.cpp $(INC)draw_bres_edge.h
-	g++ -c -g -o $(OBJ)draw_bres_edge.o -I$(INC) $(SRC)draw_bres_edge.cpp
-
-$(OBJ)draw_black_white_gradient.o: $(SRC)draw_black_white_gradient.cpp $(INC)draw_black_white_gradient.h
-	g++ -c -g -o $(OBJ)draw_black_white_gradient.o -I$(INC) $(SRC)draw_black_white_gradient.cpp
-
-$(OBJ)blending_func.o: $(SRC)blending_func.cpp $(INC)blending_func.h
-	g++ -c -g -o $(OBJ)blending_func.o -I$(INC) $(SRC)blending_func.cpp
-
-$(OBJ)scenes.o: $(SRC)scenes.cpp $(INC)scenes.h
-	g++ -c -g -o $(OBJ)scenes.o -I$(INC) $(SRC)scenes.cpp
-
-$(OBJ)matrix_state.o: $(SRC)matrix_state.cpp $(INC)matrix_state.h
-	g++ -c -g -o $(OBJ)matrix_state.o -I$(INC) $(SRC)matrix_state.cpp
-
-$(OBJ)plane_depth_calculator.o: $(SRC)plane_depth_calculator.cpp $(INC)plane_depth_calculator.h
-	g++ -c -g -o $(OBJ)plane_depth_calculator.o -I$(INC) $(SRC)plane_depth_calculator.cpp
-
-$(OBJ)line_depth_calculator.o: $(SRC)line_depth_calculator.cpp $(INC)line_depth_calculator.h
-	g++ -c -g -o $(OBJ)line_depth_calculator.o -I$(INC) $(SRC)line_depth_calculator.cpp
-
 $(OBJ)screen_raster.o: $(SRC)screen_raster.cpp $(INC)screen_raster.h
 	g++ -c -g -o $(OBJ)screen_raster.o -I$(INC) $(SRC)screen_raster.cpp
+
+# software implementation of opengl
+
+#$(OBJ)byu_gl.o: $(SRC)byu_gl.cpp $(INC)byu_gl.h
+#	g++ -c -g -o $(OBJ)byu_gl.o -I$(INC) $(SRC)byu_gl.cpp
+#
+#$(OBJ)matrix.o: $(SRC)matrix.cpp $(INC)matrix.h
+#	g++ -c -g -o $(OBJ)matrix.o -I$(INC) $(SRC)matrix.cpp
+#	
+#$(OBJ)vector.o: $(SRC)vector.cpp $(INC)vector.h
+#	g++ -c -g -o $(OBJ)vector.o -I$(INC) $(SRC)vector.cpp
+#
+#$(OBJ)vector4f.o: $(SRC)vector4f.cpp $(INC)vector4f.h $(INC)vector.h
+#	g++ -c -g -o $(OBJ)vector4f.o -I$(INC) $(SRC)vector4f.cpp
+#
+#$(OBJ)matrix4f.o: $(SRC)matrix4f.cpp $(INC)matrix4f.h
+#	g++ -c -g -o $(OBJ)matrix4f.o -I$(INC) $(SRC)matrix4f.cpp
+#
+#$(OBJ)vertex.o: $(SRC)vertex.cpp $(INC)vertex.h
+#	g++ -c -g -o $(OBJ)vertex.o -I$(INC) $(SRC)vertex.cpp
+#
+#$(OBJ)square_matrix_stack.o: $(SRC)square_matrix_stack.cpp $(INC)square_matrix_stack.h $(INC)matrix.h
+#	g++ -c -g -o $(OBJ)square_matrix_stack.o -I$(INC) $(SRC)square_matrix_stack.cpp
+#
+#$(OBJ)matrix4f_stack.o: $(SRC)matrix4f_stack.cpp $(INC)matrix4f_stack.h $(INC)matrix.h
+#	g++ -c -g -o $(OBJ)matrix4f_stack.o -I$(INC) $(SRC)matrix4f_stack.cpp
+#
+#$(OBJ)raster.o: $(SRC)raster.cpp $(INC)raster.h
+#	g++ -c -g -o $(OBJ)raster.o -I$(INC) $(SRC)raster.cpp
+#
+#$(OBJ)geometry_pipeline.o: $(SRC)geometry_pipeline.cpp $(INC)geometry_pipeline.h
+#	g++ -c -g -o $(OBJ)geometry_pipeline.o -I$(INC) $(SRC)geometry_pipeline.cpp
+#
+#$(OBJ)graphics_state.o: $(SRC)graphics_state.cpp $(INC)graphics_state.h
+#	g++ -c -g -o $(OBJ)graphics_state.o -I$(INC) $(SRC)graphics_state.cpp
+#
+#$(OBJ)vertex_buffer.o: $(SRC)vertex_buffer.cpp $(INC)vertex_buffer.h
+#	g++ -c -g -o $(OBJ)vertex_buffer.o -I$(INC) $(SRC)vertex_buffer.cpp
+#
+#$(OBJ)draw_command.o: $(SRC)draw_command.cpp $(INC)draw_command.h
+#	g++ -c -g -o $(OBJ)draw_command.o -I$(INC) $(SRC)draw_command.cpp
+#
+#$(OBJ)draw_command_factory.o: $(SRC)draw_command_factory.cpp $(INC)draw_command_factory.h
+#	g++ -c -g -o $(OBJ)draw_command_factory.o -I$(INC) $(SRC)draw_command_factory.cpp
+#
+#$(OBJ)draw_points.o: $(SRC)draw_points.cpp $(INC)draw_points.h
+#	g++ -c -g -o $(OBJ)draw_points.o -I$(INC) $(SRC)draw_points.cpp
+#
+#$(OBJ)draw_smooth_point.o: $(SRC)draw_smooth_point.cpp $(INC)draw_smooth_point.h
+#	g++ -c -g -o $(OBJ)draw_smooth_point.o -I$(INC) $(SRC)draw_smooth_point.cpp
+#
+#$(OBJ)draw_triangle.o: $(SRC)draw_triangle.cpp $(INC)draw_triangle.h
+#	g++ -c -g -o $(OBJ)draw_triangle.o -I$(INC) $(SRC)draw_triangle.cpp
+#
+#$(OBJ)draw_triangles.o: $(SRC)draw_triangles.cpp $(INC)draw_triangles.h
+#	g++ -c -g -o $(OBJ)draw_triangles.o -I$(INC) $(SRC)draw_triangles.cpp
+#
+#$(OBJ)draw_quads.o: $(SRC)draw_quads.cpp $(INC)draw_quads.h
+#	g++ -c -g -o $(OBJ)draw_quads.o -I$(INC) $(SRC)draw_quads.cpp
+#
+#$(OBJ)draw_quad_strip.o: $(SRC)draw_quad_strip.cpp $(INC)draw_quad_strip.h
+#	g++ -c -g -o $(OBJ)draw_quad_strip.o -I$(INC) $(SRC)draw_quad_strip.cpp
+#
+#$(OBJ)draw_triangle_strip.o: $(SRC)draw_triangle_strip.cpp $(INC)draw_triangle_strip.h
+#	g++ -c -g -o $(OBJ)draw_triangle_strip.o -I$(INC) $(SRC)draw_triangle_strip.cpp
+#
+#$(OBJ)draw_triangle_fan.o: $(SRC)draw_triangle_fan.cpp $(INC)draw_triangle_fan.h
+#	g++ -c -g -o $(OBJ)draw_triangle_fan.o -I$(INC) $(SRC)draw_triangle_fan.cpp
+#
+#$(OBJ)draw_bresenham_line.o: $(SRC)draw_bresenham_line.cpp $(INC)draw_bresenham_line.h
+#	g++ -c -g -o $(OBJ)draw_bresenham_line.o -I$(INC) $(SRC)draw_bresenham_line.cpp
+#
+#$(OBJ)draw_dda_line.o: $(SRC)draw_dda_line.cpp $(INC)draw_dda_line.h
+#	g++ -c -g -o $(OBJ)draw_dda_line.o -I$(INC) $(SRC)draw_dda_line.cpp
+#
+#$(OBJ)draw_bres_line.o: $(SRC)draw_bres_line.cpp $(INC)draw_bres_line.h
+#	g++ -c -g -o $(OBJ)draw_bres_line.o -I$(INC) $(SRC)draw_bres_line.cpp
+#
+#$(OBJ)draw_line_strip.o: $(SRC)draw_line_strip.cpp $(INC)draw_line_strip.h
+#	g++ -c -g -o $(OBJ)draw_line_strip.o -I$(INC) $(SRC)draw_line_strip.cpp
+#
+#$(OBJ)draw_line_loop.o: $(SRC)draw_line_loop.cpp $(INC)draw_line_loop.h
+#	g++ -c -g -o $(OBJ)draw_line_loop.o -I$(INC) $(SRC)draw_line_loop.cpp
+#
+#$(OBJ)draw_bres_edge.o: $(SRC)draw_bres_edge.cpp $(INC)draw_bres_edge.h
+#	g++ -c -g -o $(OBJ)draw_bres_edge.o -I$(INC) $(SRC)draw_bres_edge.cpp
+#
+#$(OBJ)draw_black_white_gradient.o: $(SRC)draw_black_white_gradient.cpp $(INC)draw_black_white_gradient.h
+#	g++ -c -g -o $(OBJ)draw_black_white_gradient.o -I$(INC) $(SRC)draw_black_white_gradient.cpp
+#
+#$(OBJ)blending_func.o: $(SRC)blending_func.cpp $(INC)blending_func.h
+#	g++ -c -g -o $(OBJ)blending_func.o -I$(INC) $(SRC)blending_func.cpp
+#
+#$(OBJ)scenes.o: $(SRC)scenes.cpp $(INC)scenes.h
+#	g++ -c -g -o $(OBJ)scenes.o -I$(INC) $(SRC)scenes.cpp
+#
+#$(OBJ)matrix_state.o: $(SRC)matrix_state.cpp $(INC)matrix_state.h
+#	g++ -c -g -o $(OBJ)matrix_state.o -I$(INC) $(SRC)matrix_state.cpp
+#
+#$(OBJ)plane_depth_calculator.o: $(SRC)plane_depth_calculator.cpp $(INC)plane_depth_calculator.h
+#	g++ -c -g -o $(OBJ)plane_depth_calculator.o -I$(INC) $(SRC)plane_depth_calculator.cpp
+#
+#$(OBJ)line_depth_calculator.o: $(SRC)line_depth_calculator.cpp $(INC)line_depth_calculator.h
+#	g++ -c -g -o $(OBJ)line_depth_calculator.o -I$(INC) $(SRC)line_depth_calculator.cpp
+#
+#$(OBJ)screen_raster.o: $(SRC)screen_raster.cpp $(INC)screen_raster.h
+#	g++ -c -g -o $(OBJ)screen_raster.o -I$(INC) $(SRC)screen_raster.cpp
 
 # unit tests
 #./$(BIN)test-main \
