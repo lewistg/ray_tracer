@@ -37,7 +37,7 @@ class Vector4f
 		
 		/**
 		 * Constructs a new Vector4f.
-	         * @param x
+		 * @param x
 		 * @param y
 		 * @param z
 		 * @param w

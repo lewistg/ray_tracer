@@ -49,7 +49,7 @@ class Scene
 	 * ray's t current t parameter to the value that 
 	 * @post ray.
 	 */
-	const IlluminatedObject* closestObj(Ray* ray) const;
+	const IlluminatedObject* closestObj(Ray& ray) const;
 	
 	/**
 	 * Gets the lights in the scene

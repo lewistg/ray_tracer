@@ -20,74 +20,82 @@
 #include "vector4f.h"
 
 using namespace std;
-
 /**
  * Represents a mathematical ray
  */
-class Ray
+class Ray 
 {
-    public:
-	/**
-	 * Constructs a new ray
-	 */
-	Ray(const Vector4f& pos, const Vector4f& dir);
-	
-	/**
-	 * Sets the current t
-	 * @param t
-	 * @return 
-	 */
-	void setParam(float t);
-	
-	/**
-	 * Sets the direction of the ray
-	 * @return 
-	 */
-	void setDir(const Vector4f dir);
-	
-	/**
-	 * Gets the point associated with the current param
-	 * @param t
-	 * @return 
-	 */
-	Vector4f getPoint();
-	
-	/**
-	 * Given the parameter t, find the point along the ray.
-	 * Does not set the current t value
-	 */
-	Vector4f getPoint(float t) const;
-	
-	/**
-	 * Gets the origin of the ray
-	 */
-	Vector4f getOrigin() const;
-	
-	/**
-	 * Gets the direction of the vector
-	 */
-	Vector4f getDir() const;
-	
-	/**
-	 * Gets the current parameter
-	 * @return 
-	 */
-	float getParam();
-	
-	/**
-	 * To string method
-	 */
-	string toString();
-	
-    private:
-	/**Origin of the ray*/
-	Vector4f _origin;
-	/**Direction of the ray*/
-	Vector4f _dir;
-	/**The current t value*/
-	float _t;
-	
-	
+	public:
+		/**
+		 * No arg constructor
+		 */
+		Ray();
+
+		/**
+		 * Constructs a new ray
+		 */
+		Ray(const Vector4f& pos, const Vector4f& dir);
+
+		/**
+		 * Sets the current t
+		 * @param t
+		 * @return 
+		 */
+		void setParam(float t);
+
+		/**
+		 * Sets the position of the ray's origin of the ray
+		 * @param dir
+		 */
+		void setOriginPos(const Vector4f& originPos);
+
+		/**
+		 * Sets the direction of the ray
+		 * @return 
+		 */
+		void setDir(const Vector4f& dir);
+
+		/**
+		 * Gets the point associated with the current param
+		 * @param t
+		 * @return 
+		 */
+		Vector4f getPoint() const;
+
+		/**
+		 * Given the parameter t, find the point along the ray.
+		 * Does not set the current t value
+		 */
+		Vector4f getPoint(float t) const;
+
+		/**
+		 * Gets the origin of the ray
+		 */
+		Vector4f getOrigin() const;
+
+		/**
+		 * Gets the direction of the vector
+		 */
+		Vector4f getDir() const;
+
+		/**
+		 * Gets the current parameter
+		 * @return 
+		 */
+		float getParam();
+
+		/**
+		 * To string method
+		 */
+		string toString();
+
+	private:
+		/**Origin of the ray*/
+		Vector4f _originPos;
+		/**Direction of the ray*/
+		Vector4f _dir;
+		/**The current t value*/
+		float _t;
 };
 
 #endif

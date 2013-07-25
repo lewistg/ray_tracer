@@ -16,7 +16,18 @@
 
 #include "ray.h"
 
-Ray::Ray(const Vector4f& origin, const Vector4f& dir):_origin(origin), _dir(dir)
+Ray::Ray()
+	:_originPos(), 
+	_dir(),
+	_t(0)
+{
+
+}
+
+Ray::Ray(const Vector4f& origin, const Vector4f& dir)
+	:_originPos(origin), 
+	_dir(dir), 
+	_t(0)
 {
     normalize(&_dir);
 }
@@ -26,27 +37,32 @@ void Ray::setParam(float t)
     _t = t;
 }
 
-void Ray::setDir(const Vector4f dir)
+void Ray::setOriginPos(const Vector4f& originPos)
+{
+	_originPos = originPos;	
+}
+
+void Ray::setDir(const Vector4f& dir)
 {
     _dir = dir;
     normalize(&_dir);
 }
 
-Vector4f Ray::getPoint()
+Vector4f Ray::getPoint() const
 {
     return getPoint(_t);
 }
 
 Vector4f Ray::getPoint(float t) const 
 {
-    Vector4f point = _origin;
+    Vector4f point = _originPos;
     Vector4f offset = scale(_dir, t);
     return add(point, offset);
 }
 
 Vector4f Ray::getOrigin() const
 {
-    return _origin;
+    return _originPos;
 }
 
 Vector4f Ray::getDir() const
@@ -56,7 +72,7 @@ Vector4f Ray::getDir() const
 
 string Ray::toString()
 {
-    string rayString = "(origin: " + _origin.toString();
+    string rayString = "(origin: " + _originPos.toString();
     rayString += ", direction: " + _dir.toString() + ")";
     return rayString;
 }

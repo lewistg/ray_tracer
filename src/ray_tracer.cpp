@@ -51,7 +51,7 @@ void RayTracer::trace(const Scene& scene)
 
 				//float t = sphereA.rayStrikesObject(pixRay);
 				//if(t != -1)
-				const IlluminatedObject* object = scene.closestObj(&pixRay);
+				const IlluminatedObject* object = scene.closestObj(pixRay);
 				if (object != NULL)
 				{
 					object->getIntensity(pixRay, scene);
@@ -60,7 +60,8 @@ void RayTracer::trace(const Scene& scene)
 					//_screen->setPixel(x, y, pixRay.getColor());
 					averageColor = add(averageColor, pixRay.getColor());
 					//cout << "Hit at: " << t << endl;
-				} else
+				} 
+				else
 				{
 					averageColor = add(averageColor, missColor);
 					//_screen->setPixel(x, y, missColor);

@@ -48,8 +48,8 @@ class LightRay: public Ray
 	/**
 	 * Gets the depth of the light ray
 	 */
-	int getDepth();
-	
+	int getDepth() const;
+
 	/**
 	 * Adds a perturbation to the light ray
 	 */
@@ -58,8 +58,6 @@ class LightRay: public Ray
     private:
 	/**The color of the light ray*/
 	Vector4f _color;
-	/**The the refractive index of the medium this ray is passing through*/ 
-	float _mediumRefractIndex;
 	/**The "recursive depth" of the ray*/
 	int _recursiveDepth;
 };

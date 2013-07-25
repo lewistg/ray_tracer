@@ -31,27 +31,27 @@ void Scene::addLight(LambertLight* light)
     _lights.push_back(light);
 }
 
-const IlluminatedObject* Scene::closestObj(Ray* ray) const
+const IlluminatedObject* Scene::closestObj(Ray& ray) const
 {
-    IlluminatedObject* closestObj = NULL;
-    float tForClosest = FLT_MAX;
-    float t;
-    for(vector<IlluminatedObject*>::const_iterator objItr = _objects.begin(); 
-	    objItr != _objects.end();
-	    objItr++)
-    {
-	t = (*objItr)->rayStrikesObject(*ray);
-	
-	// if we have found a new closest object
-	if(t > 0 && t < tForClosest/* && !verySmall(t)*/)
+	IlluminatedObject* closestObj = NULL;
+	float tForClosest = FLT_MAX;
+	float t;
+	for (vector<IlluminatedObject*>::const_iterator objItr = _objects.begin();
+			objItr != _objects.end();
+			objItr++)
 	{
-	    closestObj = *objItr;
-	    tForClosest = t;
+		t = (*objItr)->rayStrikesObject(ray);
+
+		// if we have found a new closest object
+		if (t > 0 && t < tForClosest/* && !verySmall(t)*/)
+		{
+			closestObj = *objItr;
+			tForClosest = t;
+		}
 	}
-    }
-    
-    ray->setParam(tForClosest);
-    return closestObj;
+
+	ray.setParam(tForClosest);
+	return closestObj;
 }
 
 vector<LambertLight*> Scene::getLights() const

@@ -16,6 +16,11 @@ might not be entirely right.
 
 -Upgrade to C++ 11 and remove dependency on boost
 
+==REFERENCES==
+
+Much of the conceptual underpinnings of this project come from 
+Paul Rademacher's website: http://www.cs.unc.edu/~rademach/xroads-RT/RTarticle.html#color 
+
 ==COPYRIGHT AND WARRANTY==
 
 Copyright (c) 2013, Ty G. Lewis

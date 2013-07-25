@@ -68,7 +68,8 @@ class IlluminatedObject
 
 		/**
 		 * Loads the light ray with the intensity that results from
-		 * being traced from this object. 
+		 * being traced to this object (i.e. the light ray emanates
+		 * from this object). 
 		 * @param lightRay
 		 * @param scene 
 		 * @pre The light ray's current parameterized point is a point on the
@@ -106,9 +107,29 @@ class IlluminatedObject
 		float _kDiffuse;
 
 		/**
-		 * Helper function for tracing reflected rays
-		 */
-		//void traceReflection(LightRay* reflectedRay, const Scene& scene)
+		 * Traces shadow rays spawned by the incoming ray and returns the diffuse
+		 * and ambient contributions.
+         * @param incomingRay
+         * @param scene
+         * @param intensitySum
+         */
+		Vector4f getDiffuseAmbientIntensity(const LightRay& incomingRay, const Scene& scene) const;
+
+		/**
+		 * Traces a the reflecting ray spawned by the incoming ray 
+		 * returns the resulting contribution.
+		 * @param incomingRay - The light ray that struck the object.
+		 * @param scene - The scene being ray traced.
+		 * @param intensitySum - The running total of intensity that the incoming 
+		 * ray receives by striking this object. 
+		 * @return The contribution from reflection will be added to the 
+		 * intensitySum.  
+         */
+		Vector4f getReflectionIntensity(const LightRay& incomingRay, const Scene& scene) const;
+
+		// Undefined canonicals
+		IlluminatedObject(const IlluminatedObject& cpy);
+		const IlluminatedObject& operator=(const IlluminatedObject& _rhs);
 };
 
 #endif
