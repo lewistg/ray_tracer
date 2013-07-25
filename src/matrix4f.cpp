@@ -180,7 +180,7 @@ Matrix4f Matrix4f::inverse()
 SquareMatrix Matrix4f::getMinor(int skipRow, int skipCol)
 {
 	assert(DIMENSION_FOUR > 1);
-	SquareMatrix minor(DIMENSION_FOUR - 1);
+	SquareMatrix minorMat(DIMENSION_FOUR - 1);
 	int minorRow = 0;
 	for(int row = 0; row < DIMENSION_FOUR; row++)
 	{
@@ -193,14 +193,14 @@ SquareMatrix Matrix4f::getMinor(int skipRow, int skipCol)
 			if(col == skipCol)
 				continue;
 
-			minor[minorRow][minorCol] = (*this)[row][col];
+			minorMat[minorRow][minorCol] = (*this)[row][col];
 			minorCol++;
 		}
 
 		minorRow++;
 	}
 
-	return minor;	
+	return minorMat;	
 }
 
 Matrix4f Matrix4f::getCofactorMatrix()

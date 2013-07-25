@@ -14,8 +14,8 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <memory>
 #include <cmath>
-
 #include "ray_tracer.h"
 #include "illuminated_object.h"
 #include "scene.h"
@@ -51,7 +51,7 @@ void RayTracer::trace(const Scene& scene)
 
 				//float t = sphereA.rayStrikesObject(pixRay);
 				//if(t != -1)
-				const IlluminatedObject* object = scene.closestObj(pixRay);
+				const std::shared_ptr<IlluminatedObject> object = scene.closestObj(pixRay);
 				if (object != NULL)
 				{
 					object->getIntensity(pixRay, scene);

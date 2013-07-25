@@ -17,51 +17,53 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
+#include <memory>
 #include <cfloat>
 #include <vector>
 #include "illuminated_object.h"
 #include "lambert_light.h"
 
 using namespace std;
-
 /**
  * A scene to be ray-traced. Basically it is a container for illuminated
  * objects and scenes
  */
 class Scene 
 {
-    public:
+public:
 	Scene();
-	
+
 	/**
 	 * Adds an object to the scene
-         * @param object
-         */
-	void addObject(IlluminatedObject* object);
-	
+	 * @param object
+	 */
+	void addObject(std::shared_ptr<IlluminatedObject>& object);
+
 	/**
 	 * Adds a light to the scene
 	 */
 	void addLight(LambertLight* light);
-	
+
 	/**
 	 * Finds closest object intersected by the ray. Sets the
-	 * ray's t current t parameter to the value that 
+	 * ray's t parameter to the t such that ray(t) is the point
+	 * on the closest object struck by the ray.
 	 * @post ray.
+	 * @return A pointer to the closes object and null otherwise.
 	 */
-	const IlluminatedObject* closestObj(Ray& ray) const;
-	
+	const std::shared_ptr<IlluminatedObject> closestObj(Ray& ray) const;
+
 	/**
 	 * Gets the lights in the scene
 	 */
 	vector<LambertLight*> getLights() const;
-	
-    private:
+
+private:
 	/**Holds all of the objects in the scene*/
-	vector<IlluminatedObject*> _objects;
+	std::vector<std::shared_ptr<IlluminatedObject> > _objects;
 	/**Holds all of the lights in the scene*/
 	vector<LambertLight*> _lights;
-	
+
 	/**
 	 * Helper function for preventing intersecting with same
 	 * object at the same point

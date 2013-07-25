@@ -21,7 +21,7 @@ Scene::Scene()
     
 }
 
-void Scene::addObject(IlluminatedObject* object)
+void Scene::addObject(std::shared_ptr<IlluminatedObject>& object)
 {
     _objects.push_back(object);
 }
@@ -31,12 +31,12 @@ void Scene::addLight(LambertLight* light)
     _lights.push_back(light);
 }
 
-const IlluminatedObject* Scene::closestObj(Ray& ray) const
+const std::shared_ptr<IlluminatedObject> Scene::closestObj(Ray& ray) const
 {
-	IlluminatedObject* closestObj = NULL;
+	std::shared_ptr<IlluminatedObject> closestObj;
 	float tForClosest = FLT_MAX;
 	float t;
-	for (vector<IlluminatedObject*>::const_iterator objItr = _objects.begin();
+	for (std::vector<std::shared_ptr<IlluminatedObject> >::const_iterator objItr = _objects.begin();
 			objItr != _objects.end();
 			objItr++)
 	{

@@ -14,13 +14,11 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <memory>
 #include <cmath>
 #include <vector>
-
 #include "illuminated_object.h"
-
 #include "sphere.h" // TODO: remove
-
 #include "light_ray.h"
 #include "lambert_light.h"
 #include "scene.h"
@@ -80,7 +78,7 @@ Vector4f IlluminatedObject::getDiffuseAmbientIntensity(const LightRay& incomingR
 		normalize(&dirToLight);
 		Ray rayToLight(rayOrigin, dirToLight);
 
-		const IlluminatedObject* obstructingObj = scene.closestObj(rayToLight);
+		const shared_ptr<IlluminatedObject> obstructingObj = scene.closestObj(rayToLight);
 		float distToHider = ((obstructingObj == NULL) ?
 				FLT_MAX :
 				mag3f(sub(rayToLight.getOrigin(), rayToLight.getPoint())));
@@ -116,7 +114,7 @@ Vector4f IlluminatedObject::getReflectionIntensity(const LightRay& incomingRay, 
 	Vector4f reflectedDir = add(incomingRay.getDir(), scale(getNormal(incomingRay.getPoint()), 2 * c1));
 	LightRay reflectedRay(incomingRay.getPoint(), reflectedDir, incomingRay.getDepth() + 1);
 
-	const IlluminatedObject* object = scene.closestObj(reflectedRay);
+	const std::shared_ptr<IlluminatedObject> object = scene.closestObj(reflectedRay);
 	if (object != NULL)
 		object->getIntensity(reflectedRay, scene);
 

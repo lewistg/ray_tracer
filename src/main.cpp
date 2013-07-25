@@ -14,6 +14,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <memory>
 #include <iostream>
 #include <GL/glew.h>
 #include <GL/freeglut.h>
@@ -76,49 +77,45 @@ void timerFunc(int);
  */
 void drawRaster();
 
-extern int NUM_SCENES2;
-extern vector<void (* )()> scenes2;
-
 void* rayThread(void* argument)
 {
-    //IlluminatedObject object;
     float r = 10.0f;
     Vector4f center(0.0f, 0.0f, -15.0f, 1.0f);
-    Sphere sphereA(center, r);
-    sphereA.setColor(Vector4f(1.0f, 0.85f, 0.73f, 1.0f));
-    sphereA.setDiffAmbCoeff(1.0);
-    sphereA.setReflCoeff(0.0);
+	std::shared_ptr<IlluminatedObject> sphereA(new Sphere (center, r));
+    sphereA->setColor(Vector4f(1.0f, 0.85f, 0.73f, 1.0f));
+    sphereA->setDiffAmbCoeff(1.0);
+    sphereA->setReflCoeff(0.0);
     //sphereA.setDiffAmbCoeff(.8);
     //sphereA.setReflCoeff(0.4);
     
     r = 7.0f;
     center = Vector4f(-15.0f, -3.0f, -3.0f, 1.0f);
-    Sphere sphereB(center, r);
-    sphereB.setColor(Vector4f(1.0f, 1.0f, 0.6f, 1.0f));
-    sphereB.setDiffAmbCoeff(0.8f);
-    sphereB.setReflCoeff(0.1f);
+    std::shared_ptr<IlluminatedObject> sphereB(new Sphere(center, r));
+    sphereB->setColor(Vector4f(1.0f, 1.0f, 0.6f, 1.0f));
+    sphereB->setDiffAmbCoeff(0.8f);
+    sphereB->setReflCoeff(0.1f);
     
     r = 14.0f;
     center = Vector4f(20.0f, 4.0f, 0.0f, 1.0f);
-    Sphere sphereL(center, r);
-    sphereL.setColor(Vector4f(1.0f, 0.079f, 0.57f, 1.0f));
-    sphereL.setReflCoeff(0.0f);
+    std::shared_ptr<IlluminatedObject> sphereL(new Sphere(center, r));
+    sphereL->setColor(Vector4f(1.0f, 0.079f, 0.57f, 1.0f));
+    sphereL->setReflCoeff(0.0f);
     
     Vector4f p0(-30.0f, 10.0f, -15.0f, 1.0f);
     Vector4f p1(-7.0f, 10.0f, -20.0f, 1.0f);
     Vector4f p2(-20.0f, 25.0f, -8.5f, 1.0f);
-    RTriangle triangle(p0, p1, p2);
-    triangle.setDiffAmbCoeff(0.2f);
-    triangle.setReflCoeff(1.0f);
+    std::shared_ptr<IlluminatedObject>triangle(new RTriangle (p0, p1, p2));
+    triangle->setDiffAmbCoeff(0.2f);
+    triangle->setReflCoeff(1.0f);
     
     //Plane plane(Vector4f(0.0f, 0.0f, -100.0f, 1.0f), Vector4f(0.0f, 0.707f, 0.707f, 1.0f));
-    Plane table(Vector4f(0.0f, -10.0f, 0.0f, 1.0f), Vector4f(0.0f, 1.0f, 0.1f, 1.0f));
-    table.setColor(Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
-    table.setReflCoeff(.2);
+    std::shared_ptr<IlluminatedObject>table(new Plane(Vector4f(0.0f, -10.0f, 0.0f, 1.0f), Vector4f(0.0f, 1.0f, 0.1f, 1.0f)));
+    table->setColor(Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
+    table->setReflCoeff(.2);
     
-    Plane backWall(Vector4f(0.0f, -10.0f, -50.0f, 1.0f), Vector4f(0.0f, 0.0f, 1.0f, 1.0f));
-    backWall.setColor(Vector4f(0.67f, 0.84f, 0.90f, 1.0f));
-    backWall.setReflCoeff(.2);    
+    std::shared_ptr<IlluminatedObject>backWall(new Plane(Vector4f(0.0f, -10.0f, -50.0f, 1.0f), Vector4f(0.0f, 0.0f, 1.0f, 1.0f)));
+    backWall->setColor(Vector4f(0.67f, 0.84f, 0.90f, 1.0f));
+    backWall->setReflCoeff(.2);    
     
     Plane frontWall(Vector4f(0.0f, -10.0f, 100.0f, 1.0f), Vector4f(0.0f, 0.0f, -1.0f, 1.0f));
     frontWall.setColor(Vector4f(0.5f, 1.0f, 0.5f, 1.0f));
@@ -141,12 +138,12 @@ void* rayThread(void* argument)
     light1.setAmbient(Vector4f(0.01f, 0.01f, 0.01f, 1.0f));
     
     Scene scene;
-    scene.addObject(&sphereA);
-    scene.addObject(&sphereB);
-    scene.addObject(&sphereL);
-    scene.addObject(&table);
-    scene.addObject(&triangle);
-    scene.addObject(&backWall);
+    scene.addObject(sphereA);
+    scene.addObject(sphereB);
+    scene.addObject(sphereL);
+    scene.addObject(table);
+    scene.addObject(triangle);
+    scene.addObject(backWall);
     //scene.addObject(&frontWall);
     //scene.addObject(&ceilingWall);
     scene.addLight(&light0);

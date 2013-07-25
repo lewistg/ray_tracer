@@ -194,7 +194,7 @@ namespace gmath
 	SquareMatrix SquareMatrix::getMinor(int skipRow, int skipCol)
 	{
 		assert(_dimension > 1);
-		SquareMatrix minor(_dimension - 1);
+		SquareMatrix minorMat(_dimension - 1);
 		int minorRow = 0;
 		for(int row = 0; row < _dimension; row++)
 		{
@@ -207,14 +207,14 @@ namespace gmath
 				if(col == skipCol)
 					continue;
 				
-				minor[minorRow][minorCol] = (*this)[row][col];
+				minorMat[minorRow][minorCol] = (*this)[row][col];
 				minorCol++;
 			}
 			
 			minorRow++;
 		}
 			
-		return minor;	
+		return minorMat;	
 	}
 	
 	SquareMatrix SquareMatrix::getCofactorMatrix()
