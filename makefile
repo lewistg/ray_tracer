@@ -5,11 +5,11 @@ TEST_SRC = test_src/
 OBJ = obj/
 BIN = bin/
 LIB = lib/
-GTEST = gtest-1.6.0/
 
 #testing vars
 
 CFLAGS = -std=c++11
+INC_PATHS = -I$(INC) -I$(LIB)gmath
 
 OBJS = $(OBJ)main.o \
 	$(OBJ)byu_gl.o \
