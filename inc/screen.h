@@ -36,31 +36,31 @@ class Screen
 	 * @param w Width of the screen in pixels
 	 * @param h Height of the screen in pixels
 	 * @param unitsPerPix World coordinates per pixel
-         * @param center The center of screen in world coordinates
-         * @param negZ This vector should point towards the visible scene
-         * @param posY Essentially the up vector
-         */
+	 * @param center The center of screen in world coordinates
+	 * @param negZ This vector should point towards the visible scene
+	 * @param posY Essentially the up vector
+	 */
 	Screen(int w, int h, float unitsPerPix, const Vector4f& center, const Vector4f& negZ, 
 		const Vector4f& posY);
 	
 	/**
 	 * Sets the color intensity for a pixel
-         */
+	 */
 	void setPixel(int x, int y, const Vector4f& color);
 	
 	/**
 	 * Gets the coordinates of a point in the pixel that contains
 	 * the point x and y in screen coordinates. 
-         * @return 
-         */
+	 * @return 
+	 */
 	Vector4f getPointInPixel(float x, float y);
 	
 	/**
 	 * Gets the coordinates of a point in the pixel, treating it like
 	 * a unit square with the lower left corner of the pixel as (0,0)
 	 * @pre 0 <= x <= 1, 0 <= y <= 1
-         * @return 
-         */
+	 * @return 
+	 */
 	Vector4f getPointInPixel(int x, int y, float unitX, float unitY);
 	
 	/**
