@@ -18,11 +18,9 @@
 #define _SCREEN_H_
 
 #include <vector>
-#include "vector4f.h"
 #include "raster.h"
 #include "screen_raster.h"
-
-using namespace std;
+#include "graphics_vector.h"
 
 /**
  * Represents the screen/image plane on which the image
@@ -40,20 +38,20 @@ class Screen
 	 * @param negZ This vector should point towards the visible scene
 	 * @param posY Essentially the up vector
 	 */
-	Screen(int w, int h, float unitsPerPix, const Vector4f& center, const Vector4f& negZ, 
-		const Vector4f& posY);
+	Screen(int w, int h, float unitsPerPix, const mvl::GVector3f& center, const mvl::GVector3f& negZ, 
+		const mvl::GVector3f& posY);
 	
 	/**
 	 * Sets the color intensity for a pixel
 	 */
-	void setPixel(int x, int y, const Vector4f& color);
+	void setPixel(int x, int y, const mvl::GVector4f& color);
 	
 	/**
 	 * Gets the coordinates of a point in the pixel that contains
 	 * the point x and y in screen coordinates. 
 	 * @return 
 	 */
-	Vector4f getPointInPixel(float x, float y);
+	mvl::GVector3f getPointInPixel(float x, float y);
 	
 	/**
 	 * Gets the coordinates of a point in the pixel, treating it like
@@ -61,7 +59,7 @@ class Screen
 	 * @pre 0 <= x <= 1, 0 <= y <= 1
 	 * @return 
 	 */
-	Vector4f getPointInPixel(int x, int y, float unitX, float unitY);
+	mvl::GVector3f getPointInPixel(int x, int y, float unitX, float unitY);
 	
 	/**
 	 * Gets a pointer to the color data
@@ -82,7 +80,7 @@ class Screen
 	/**
 	 * Gets the indexed pixel's center in world coordinates
 	 */
-	Vector4f pixelCenter(int x, int y);
+	mvl::GVector3f pixelCenter(int x, int y);
 	
     private:
 	/**Width in pixels*/
@@ -96,11 +94,11 @@ class Screen
 	/**The actual pixel values*/
 	ScreenRaster _raster;
 	/**The center of the upper left corner of the screen in world coordinates*/
-	Vector4f _ulCornerPixCenter;
+	mvl::GVector3f _ulCornerPixCenter;
 	/**The "x" basis vector for the screen's space*/
-	Vector4f _xBasis;
+	mvl::GVector3f _xBasis;
 	/**The "y" basis vector for the screen's space*/
-	Vector4f _yBasis;
+	mvl::GVector3f _yBasis;
 	
 };
 

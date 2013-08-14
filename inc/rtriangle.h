@@ -34,7 +34,7 @@ class RTriangle: public IlluminatedObject
 		 * @param p1
 		 * @param p2
 		 */
-		RTriangle(const Vector4f& p0, const Vector4f& p1, const Vector4f& p2);
+		RTriangle(const mvl::GVector3f& p0, const mvl::GVector3f& p1, const mvl::GVector3f& p2);
 
 		/**
 		 * Override
@@ -45,13 +45,13 @@ class RTriangle: public IlluminatedObject
 		/**
 		 * Override
 		 */
-		virtual Vector4f getNormal(const Vector4f& pointOnObj) const;
+		virtual mvl::GVector3f getNormal(const mvl::GVector3f& pointOnObj) const;
 
 	private:
 		/**Vertices of the triangle*/
-		Vector4f _p0;
-		Vector4f _p1;
-		Vector4f _p2;
+		mvl::GVector3f _p0;
+		mvl::GVector3f _p1;
+		mvl::GVector3f _p2;
 		/**Plane that contains the triangle*/
 		Plane _plane;
 

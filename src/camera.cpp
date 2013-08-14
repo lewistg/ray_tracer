@@ -15,20 +15,22 @@
  */
 
 #include "camera.h"
+#include "graphics_vector.h"
+#include "graphics_vector_utils.h"
 
 Camera::Camera(const Eye& eye):
 	_eye(eye),
 	_screen(640, 480, .002, 
-		add(scale(eye.getDir(), 1), eye.getLocation()), // camera center
+		mvl::add(mvl::scaledCopy(eye.getDir(), 1.0f), eye.getLocation()), // camera center
 		_eye.getDir(), _eye.getUp())
 {
-    /*Vector4f screenCenter = add(scale(eye.getDir(), 20), eye.getLocation());
+    /*mvl::GVector4f screenCenter = add(scale(eye.getDir(), 20), eye.getLocation());
     Screen cameraScreen(640, 480, .1, screenCenter, _eye.getDir(), _eye.getUp());
     
     Screen screen(640, 480, .1, 
-	Vector4f(0.0f, 0.0f, 0.0f, 1.0f),
-	Vector4f(0.0f, 0.0f, -1.0f, 1.0f),
-	Vector4f(0.0f, 1.0f, 0.0f, 1.0f));*/
+	mvl::GVector4f(0.0f, 0.0f, 0.0f, 1.0f),
+	mvl::GVector4f(0.0f, 0.0f, -1.0f, 1.0f),
+	mvl::GVector4f(0.0f, 1.0f, 0.0f, 1.0f));*/
 }
 
 Eye Camera::getEye()

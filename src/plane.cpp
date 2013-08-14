@@ -16,15 +16,15 @@
 
 #include "plane.h"
 
-Plane::Plane(const Vector4f& pointOnPlane, const Vector4f& normal):
-	_D(dot3f(pointOnPlane, normal)),  
+Plane::Plane(const mvl::GVector3f& pointOnPlane, const mvl::GVector3f& normal):
+	_D(mvl::dot(pointOnPlane, normal)),  
 	_normal(normal)
 {
-    normalize(&_normal);
-    _D = dot3f(pointOnPlane, _normal);
+	_normal.normalize();
+    _D = mvl::dot(pointOnPlane, _normal);
 }
 
-Vector4f Plane::getNormal() const
+mvl::GVector3f Plane::getNormal() const
 {
     return _normal;
 }
@@ -32,12 +32,12 @@ Vector4f Plane::getNormal() const
 float Plane::rayStrikesObject(const Ray& ray)
 {
     // if they are parallel
-    float normalRayDirDot = dot3f(ray.getDir(), _normal);
+    float normalRayDirDot = mvl::dot(ray.getDir(), _normal);
     if(verySmall(normalRayDirDot))
 	return -1;
     
     // otherwise calculate the parameter
-    float t = -(dot3f(ray.getOrigin(), _normal) - _D) / normalRayDirDot;
+    float t = -(mvl::dot(ray.getOrigin(), _normal) - _D) / normalRayDirDot;
     
     // if the plane is behind the ray
     if(verySmall(t) || t < 0)
@@ -46,13 +46,13 @@ float Plane::rayStrikesObject(const Ray& ray)
 	cout << _normal.toString() << endl;
 	cout << ray.getDir().toString() << endl;
 	cout << ray.getOrigin().toString() << endl;*/
-	return -1;
+	return -1.0;
     }
     
     return t;
 }
 
-Vector4f Plane::getNormal(const Vector4f& pointOnObj) const
+mvl::GVector3f Plane::getNormal(const mvl::GVector3f& pointOnObj) const
 {
     return _normal;
 }

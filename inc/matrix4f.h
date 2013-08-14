@@ -19,7 +19,7 @@
 
 #include <assert.h>
 #include "square_matrix_stack.h"
-#include "vector4f.h"
+#include "graphics_vector.h"
 
 using namespace gmath;
 
@@ -62,14 +62,14 @@ class Matrix4f
 		 * @pre i is a valid index
 		 * @return a constant reference to the row vector
 		 */
-		Vector4f getRowVec(int row) const;
+		mvl::GVector4f getRowVec(int row) const;
 
 		/**
 		 * Returns the column vector indexed by col.
 		 * @param col
 		 * @return a constant reference to the column vector
 		 */
-		Vector4f getColVec(int col) const;
+		mvl::GVector4f getColVec(int col) const;
 
 		/**
 		 * Returns the matrix as an array of floats
@@ -103,11 +103,11 @@ class Matrix4f
 		/**
 		 * Overload the 
 		 * @param row
-		 * @return a row Vector4f corresponding to the row index
+		 * @return a row mvl::GVector4f corresponding to the row index
 		 */
-		Vector4f& operator[] (int row);
+		mvl::GVector4f& operator[] (int row);
 		
-		Vector4f& operator[] (int row) const;
+		mvl::GVector4f& operator[] (int row) const;
 
 		/**
 		 * Overloaded equality operator. Checks to see if
@@ -139,7 +139,7 @@ class Matrix4f
 	private:
 		static const int DIMENSION_FOUR = 4;
 		int _dimension;			// dimensions of the matrix
-		Vector4f* _vectorRows;	// holds the matrix values
+		mvl::GVector4f* _vectorRows;	// holds the matrix values
 
 		/**
 		 * Utility function for getting a minor matrix.
@@ -173,7 +173,7 @@ Matrix4f mult(const Matrix4f& m1, const Matrix4f& m2);
  * @param v
  * @return 
  */
-Vector4f mult(const Matrix4f& m, const Vector4f& v);
+mvl::GVector4f mult(const Matrix4f& m, const mvl::GVector4f& v);
 
 /**
  * Transposes the matrix m.

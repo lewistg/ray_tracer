@@ -17,7 +17,7 @@
 #ifndef _EYE_H_
 #define _EYE_H_
 
-#include "vector4f.h"
+#include "graphics_vector.h"
 #include "math_utils.h"
 
 
@@ -35,34 +35,34 @@ class Eye
 	/**
 	 * Constructs a new eye
 	 */
-	Eye(const Vector4f& location, 
-		const Vector4f& lookAt,
-		const Vector4f& up);
+	Eye(const mvl::GVector3f& location, 
+		const mvl::GVector3f& lookAt,
+		const mvl::GVector3f& up);
 	
 	/**
 	 * Gets the direction vector of the eye
 	 */
-	Vector4f getDir() const;
+	mvl::GVector3f getDir() const;
 	
 	/**
 	 * Gets the location of the eye
 	 */
-	Vector4f getLocation() const;
+	mvl::GVector3f getLocation() const;
 	
 	/**
 	 * Gets the up vector the eye
 	 */
-	Vector4f getUp() const;
+	mvl::GVector3f getUp() const;
 	
     private:
 	/**The location of the eye*/
-	Vector4f _location;
+	mvl::GVector3f _location;
 	/**Look at vector*/
-	Vector4f _lookAt;
-	/**Which way is udp*/
-	Vector4f _up;
+	mvl::GVector3f _lookAt;
+	/**Which way is up*/
+	mvl::GVector3f _up;
 	/**Viewing direction*/
-	Vector4f _dir;
+	mvl::GVector3f _dir;
 };
 
 #endif

@@ -19,7 +19,7 @@
 
 #include <math.h>
 #include "illuminated_object.h"
-#include "vector4f.h"
+#include "graphics_vector.h"
 
 /**
  * Represents a sphere
@@ -33,7 +33,7 @@ class Sphere:public IlluminatedObject
          * @param center
          * @param radius
          */
-	Sphere(const Vector4f& center, float radius);
+	Sphere(const mvl::GVector3f& center, float radius);
 	
 	/**
 	 * Override
@@ -44,11 +44,11 @@ class Sphere:public IlluminatedObject
 	/**
 	 * Override
 	 */
-	virtual Vector4f getNormal(const Vector4f& pointOnObj) const;
+	virtual mvl::GVector3f getNormal(const mvl::GVector3f& pointOnObj) const;
 	
     private:
 	/**Center of the sphere*/
-	Vector4f _center;
+	mvl::GVector3f _center;
 	/**Radius of the sphere*/
 	float _radius;
 };

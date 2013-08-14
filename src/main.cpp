@@ -39,21 +39,21 @@ using namespace gmath;
  * My ratracer
  */
 Screen screen(640, 480, .1, 
-	Vector4f(0.0f, 0.0f, 0.0f, 1.0f),
-	Vector4f(0.0f, 0.0f, -1.0f, 1.0f),
-	Vector4f(0.0f, 1.0f, 0.0f, 1.0f));
+	mvl::GVector3f(0.0f, 0.0f, 0.0f),
+	mvl::GVector3f(0.0f, 0.0f, -1.0f),
+	mvl::GVector3f(0.0f, 1.0f, 0.0f));
 
-Eye eye(Vector4f(0.0f, 0.0f, 50.0f, 1.0f), 
-	Vector4f(0.0f, 0.0f, -20.0f, 1.0f), 
-	Vector4f(0.0f, 1.0f, 0.0f, 1.0f));
-/*Eye eye(Vector4f(0.0f, 100.0f, 0.0f, 1.0f), 
-	Vector4f(0.0f, 0.0f, -20.0f, 1.0f), 
-	Vector4f(-1.0f, 0.0f, 0.0f, 1.0f));*/
+Eye eye(mvl::GVector3f(0.0f, 0.0f, 50.0f), 
+	mvl::GVector3f(0.0f, 0.0f, -20.0f), 
+	mvl::GVector3f(0.0f, 1.0f, 0.0f));
+/*Eye eye(mvl::GVector4f(0.0f, 100.0f, 0.0f, 1.0f), 
+	mvl::GVector4f(0.0f, 0.0f, -20.0f, 1.0f), 
+	mvl::GVector4f(-1.0f, 0.0f, 0.0f, 1.0f));*/
 Camera camera(eye);
 
 Scene scene;
 
-//RayTracer rayTracer(Vector4f(0.0f, 0.0f, 50.0f, 1.0f), &screen);
+//RayTracer rayTracer(mvl::GVector4f(0.0f, 0.0f, 50.0f, 1.0f), &screen);
 RayTracer rayTracer(camera.getEye().getLocation(), camera.getScreen());
 
 /**
@@ -80,62 +80,62 @@ void drawRaster();
 void* rayThread(void* argument)
 {
     float r = 10.0f;
-    Vector4f center(0.0f, 0.0f, -15.0f, 1.0f);
+    mvl::GVector3f center(0.0f, 0.0f, -15.0f);
 	std::shared_ptr<IlluminatedObject> sphereA(new Sphere (center, r));
-    sphereA->setColor(Vector4f(1.0f, 0.85f, 0.73f, 1.0f));
+    sphereA->setColor(mvl::GVector4f(1.0f, 0.85f, 0.73f, 1.0f));
     sphereA->setDiffAmbCoeff(1.0);
     sphereA->setReflCoeff(0.0);
     //sphereA.setDiffAmbCoeff(.8);
     //sphereA.setReflCoeff(0.4);
     
     r = 7.0f;
-    center = Vector4f(-15.0f, -3.0f, -3.0f, 1.0f);
+    center = mvl::GVector3f(-15.0f, -3.0f, -3.0f);
     std::shared_ptr<IlluminatedObject> sphereB(new Sphere(center, r));
-    sphereB->setColor(Vector4f(1.0f, 1.0f, 0.6f, 1.0f));
+    sphereB->setColor(mvl::GVector4f(1.0f, 1.0f, 0.6f, 1.0f));
     sphereB->setDiffAmbCoeff(0.8f);
     sphereB->setReflCoeff(0.1f);
     
     r = 14.0f;
-    center = Vector4f(20.0f, 4.0f, 0.0f, 1.0f);
+    center = mvl::GVector3f(20.0f, 4.0f, 0.0f);
     std::shared_ptr<IlluminatedObject> sphereL(new Sphere(center, r));
-    sphereL->setColor(Vector4f(1.0f, 0.079f, 0.57f, 1.0f));
+    sphereL->setColor(mvl::GVector4f(1.0f, 0.079f, 0.57f, 1.0f));
     sphereL->setReflCoeff(0.0f);
     
-    Vector4f p0(-30.0f, 10.0f, -15.0f, 1.0f);
-    Vector4f p1(-7.0f, 10.0f, -20.0f, 1.0f);
-    Vector4f p2(-20.0f, 25.0f, -8.5f, 1.0f);
+    mvl::GVector3f p0(-30.0f, 10.0f, -15.0f);
+    mvl::GVector3f p1(-7.0f, 10.0f, -20.0f);
+    mvl::GVector3f p2(-20.0f, 25.0f, -8.5f);
     std::shared_ptr<IlluminatedObject>triangle(new RTriangle (p0, p1, p2));
     triangle->setDiffAmbCoeff(0.2f);
     triangle->setReflCoeff(1.0f);
     
-    //Plane plane(Vector4f(0.0f, 0.0f, -100.0f, 1.0f), Vector4f(0.0f, 0.707f, 0.707f, 1.0f));
-    std::shared_ptr<IlluminatedObject>table(new Plane(Vector4f(0.0f, -10.0f, 0.0f, 1.0f), Vector4f(0.0f, 1.0f, 0.1f, 1.0f)));
-    table->setColor(Vector4f(1.0f, 1.0f, 1.0f, 1.0f));
+    //Plane plane(mvl::GVector4f(0.0f, 0.0f, -100.0f, 1.0f), mvl::GVector4f(0.0f, 0.707f, 0.707f, 1.0f));
+    std::shared_ptr<IlluminatedObject>table(new Plane(mvl::GVector3f(0.0f, -10.0f, 0.0f), mvl::GVector3f(0.0f, 1.0f, 0.1f)));
+    table->setColor(mvl::GVector4f(1.0f, 1.0f, 1.0f, 1.0f));
     table->setReflCoeff(.2);
     
-    std::shared_ptr<IlluminatedObject>backWall(new Plane(Vector4f(0.0f, -10.0f, -50.0f, 1.0f), Vector4f(0.0f, 0.0f, 1.0f, 1.0f)));
-    backWall->setColor(Vector4f(0.67f, 0.84f, 0.90f, 1.0f));
+    std::shared_ptr<IlluminatedObject>backWall(new Plane(mvl::GVector3f(0.0f, -10.0f, -50.0f), mvl::GVector3f(0.0f, 0.0f, 1.0f)));
+    backWall->setColor(mvl::GVector4f(0.67f, 0.84f, 0.90f, 1.0f));
     backWall->setReflCoeff(.2);    
     
-    Plane frontWall(Vector4f(0.0f, -10.0f, 100.0f, 1.0f), Vector4f(0.0f, 0.0f, -1.0f, 1.0f));
-    frontWall.setColor(Vector4f(0.5f, 1.0f, 0.5f, 1.0f));
+    Plane frontWall(mvl::GVector3f(0.0f, -10.0f, 100.0f), mvl::GVector3f(0.0f, 0.0f, -1.0f));
+    frontWall.setColor(mvl::GVector4f(0.5f, 1.0f, 0.5f, 1.0f));
     frontWall.setReflCoeff(.2);    
     
-    Plane ceilingWall(Vector4f(0.0f, 40.0f, 100.0f, 1.0f), Vector4f(0.0f, -1.0f, 0.0f, 1.0f));
-    ceilingWall.setColor(Vector4f(1.0f, 0.0f, 0.0f, 1.0f));
+    Plane ceilingWall(mvl::GVector3f(0.0f, 40.0f, 100.0f), mvl::GVector3f(0.0f, -1.0f, 0.0f));
+    ceilingWall.setColor(mvl::GVector4f(1.0f, 0.0f, 0.0f, 1.0f));
     ceilingWall.setReflCoeff(.2);     
     
     LambertLight light0;
-    //light.setPos(Vector4f(0.0f, 0.0f, 10.0f, 1.0f));
-    light0.setPos(Vector4f(-20.0f, 20.0f, 100.0f, 1.0f));
-    light0.setDiffuse(Vector4f(0.75f, 0.75f, 0.6f, 1.0f));
-    light0.setAmbient(Vector4f(0.01f, 0.01f, 0.01f, 1.0f));
+    //light.setPos(mvl::GVector4f(0.0f, 0.0f, 10.0f, 1.0f));
+    light0.setPos(mvl::GVector3f(-20.0f, 20.0f, 100.0f));
+    light0.setDiffuse(mvl::GVector4f(0.75f, 0.75f, 0.6f, 1.0f));
+    light0.setAmbient(mvl::GVector4f(0.01f, 0.01f, 0.01f, 1.0f));
     
     LambertLight light1;
-    light1.setPos(Vector4f(20.0f, 20.0f, 100.0f, 1.0f));
-    //light2.setPos(Vector4f(0.0f, 0.0f, -500.0f, 1.0f));
-    light1.setDiffuse(Vector4f(0.5f, 0.5f, 0.4f, 1.0f));
-    light1.setAmbient(Vector4f(0.01f, 0.01f, 0.01f, 1.0f));
+    light1.setPos(mvl::GVector3f(20.0f, 20.0f, 100.0f));
+    //light2.setPos(mvl::GVector4f(0.0f, 0.0f, -500.0f, 1.0f));
+    light1.setDiffuse(mvl::GVector4f(0.5f, 0.5f, 0.4f, 1.0f));
+    light1.setAmbient(mvl::GVector4f(0.01f, 0.01f, 0.01f, 1.0f));
     
     Scene scene;
     scene.addObject(sphereA);

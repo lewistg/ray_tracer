@@ -18,7 +18,7 @@
 #define _PLANE_DEPTH_CALCULATOR_H_
 
 #include <assert.h>
-#include "vector4f.h"
+#include "graphics_vector.h"
 
 /**
  * Calculates the depth (i.e. z value) of a given point
@@ -29,9 +29,9 @@ class PlaneDepthCalculator
 	    /**
 	     * Constructor
 	     */
-	    PlaneDepthCalculator(const Vector4f& v0, 
-					const Vector4f& v1, 
-					const Vector4f& v2);
+	    PlaneDepthCalculator(const mvl::GVector3f& v0, 
+					const mvl::GVector3f& v1, 
+					const mvl::GVector3f& v2);
 	    
 	    /**
 	     * No arg constructor
@@ -44,9 +44,9 @@ class PlaneDepthCalculator
              * @param v1
              * @param v2
              */
-	    void calibrateForPlane(const Vector4f& v0, 
-					const Vector4f& v1, 
-					const Vector4f& v2);
+	    void calibrateForPlane(const mvl::GVector3f& v0, 
+					const mvl::GVector3f& v1, 
+					const mvl::GVector3f& v2);
 	    
 	    /**
 	     * Gets the depth value for a particular x, y coordinate

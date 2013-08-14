@@ -14,45 +14,40 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _RAY_TRACER_H_
-#define _RAY_TRACER_H_
+#ifndef _ROW_OPERATION_INTERFACE_H_
+#define _ROW_OPERATION_INTERFACE_H_
 
-#include <boost/shared_ptr.hpp>
-#include "eye.h"
-#include "screen.h"
-#include "ray.h"
-#include "graphics_vector.h"
-#include "sphere.h"
-#include "scene.h"
+#include <memory>
+#include "vector.h"
 
-using namespace std;
-
-/**
- * Represents the ray tracing algorithm. Contains
- * all of the essential components.
- */
-class RayTracer
+namespace mvl
 {
+	/**
+	 * Interface for a row operation
+	 * @param m
+	 */
+	template <class T>
+	class IRowOperation
+	{
 	public:
-	    /**
-	     * Constructor
-             */
-	    RayTracer(const mvl::GVector3f& eye, Screen& screen);
-	    
-	    /**
-	     * Performs the ray tracing algorithm
-	     */
-	    void trace(const Scene& scene);
-	    
-	private:
-	    /**The eye of the viewer*/
-	    mvl::GVector3f _eye;
-	    /**The screen we project on*/
-	    Screen& _screen;
-	    /**The seen we will trace*/
-	    Scene _scene;
-	    /**Stochastic antialiasing*/
-	    static const int STOCHASTIC_ANTIALIASING = 4;
-};
+		/**
+		 * Destructor
+		 */
+		virtual ~IRowOperation() 
+		{
 
+		}
+
+		/**
+		 * Performs the basic row operation
+		 * @param m
+		 */
+		virtual void operation(IMatrix<T>& m) = 0;
+
+		/**
+		 * Returns a copy of this row operation.
+		 */
+		virtual std::unique_ptr<IRowOperation> makeCopy() const = 0;
+	};
+}
 #endif

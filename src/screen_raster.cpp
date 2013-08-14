@@ -79,8 +79,8 @@ void ScreenRaster::setPixel(int x, int y, const float pixelData[])
     assert(x < _pixelWidth);
     if(y >= _pixelHeight)
     {
-	cout << "y: " << y << endl;
-	cout << "pixle height: " << _pixelHeight << endl;
+		cout << "y: " << y << endl;
+		cout << "pixle height: " << _pixelHeight << endl;
     }
 	
     assert(y < _pixelHeight);

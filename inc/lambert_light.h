@@ -17,7 +17,7 @@
 #ifndef _LAMBERT_LIGHT_H_
 #define _LAMBERT_LIGHT_H_
 
-#include "vector4f.h"
+#include "graphics_vector.h"
 
 /**
  * A lambert light possessing a diffuse, ambient,
@@ -36,58 +36,58 @@ class LambertLight
          * @param diffuseComps - The diffuse components
 	 * @pre size(diffuseComps) = 4
          */
-	void setDiffuse(const Vector4f& diffuseComps);
+	void setDiffuse(const mvl::GVector4f& diffuseComps);
 
 	
 	/**
 	 * Gets the diffuse component of light
          */
-	Vector4f getDiffuse();	
+	mvl::GVector4f getDiffuse();	
 	
 	/**
 	 * Sets the ambient component of the lighting
          * @param ambComps - The diffuse components
 	 * @pre size(ambComps) = 4
          */
-	void setAmbient(const Vector4f& ambComps);
+	void setAmbient(const mvl::GVector4f& ambComps);
 	
 	/**
 	 * Gets the ambient component of light
          */
-	Vector4f getAmbient();
+	mvl::GVector4f getAmbient();
 
 	/**
 	 * Sets the shine of the color of the light
          * @param pos
          */
-	 void setSpecular(const Vector4f& specularComps);
+	 void setSpecular(const mvl::GVector4f& specularComps);
 	 
 	 /**
 	  * Gets the specular components of the light
           */
-	 Vector4f getSpecular();
+	 mvl::GVector4f getSpecular();
 	
 	/**
 	 * Sets the position of the light
          * @param pos - The position of the light
 	 * @pre size(pos) = 4
          */
-	void setPos(const Vector4f& pos);
+	void setPos(const mvl::GVector3f& pos);
 	
 	/**
 	 * Gets the position of the light
 	 */
-	Vector4f getPos() const;
+	mvl::GVector3f getPos() const;
 	
     private:
 	/**The diffuse components*/
-	Vector4f _diffuseComps;
+	mvl::GVector4f _diffuseComps;
 	/**The ambient components*/
-	Vector4f _ambientComps;
+	mvl::GVector4f _ambientComps;
 	/**The specular components*/
-	Vector4f _specularComps;
+	mvl::GVector4f _specularComps;
 	/**The position of the light*/
-	Vector4f _pos;
+	mvl::GVector3f _pos;
 };
 
 #endif

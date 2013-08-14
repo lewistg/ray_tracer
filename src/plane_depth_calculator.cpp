@@ -15,10 +15,11 @@
  */
 
 #include "plane_depth_calculator.h"
+#include "graphics_vector_utils.h"
 
-PlaneDepthCalculator::PlaneDepthCalculator(const Vector4f& v0, 
-						const Vector4f& v1, 
-						const Vector4f& v2)
+PlaneDepthCalculator::PlaneDepthCalculator(const mvl::GVector3f& v0, 
+						const mvl::GVector3f& v1, 
+						const mvl::GVector3f& v2)
 {
     calibrateForPlane(v0, v1, v2);
 } 
@@ -31,11 +32,11 @@ double PlaneDepthCalculator::getDepth(int x, int y)
     return (-(_A * x) - (_B * y) - _D) / _C;
 }
 
-void PlaneDepthCalculator::calibrateForPlane(const Vector4f& v0, 
-			    const Vector4f& v1, 
-			    const Vector4f& v2)
+void PlaneDepthCalculator::calibrateForPlane(const mvl::GVector3f& v0, 
+			    const mvl::GVector3f& v1, 
+			    const mvl::GVector3f& v2)
 {
-    Vector4f normal = cross(sub(v1, v0), sub(v2, v0));
+    mvl::GVector3f normal = cross(sub(v1, v0), sub(v2, v0));
     _A = (double) x(normal);
     _B = (double) y(normal);
     _C = (double) z(normal);

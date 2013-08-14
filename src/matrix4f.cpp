@@ -16,13 +16,13 @@
 
 #include "matrix4f.h"
 
-Matrix4f::Matrix4f():_vectorRows(new Vector4f[DIMENSION_FOUR])
+Matrix4f::Matrix4f():_vectorRows(new mvl::GVector4f[DIMENSION_FOUR])
 {
 }
 
 Matrix4f::Matrix4f(float source[]):_vectorRows(NULL)
 {
-	_vectorRows = new Vector4f[DIMENSION_FOUR];
+	_vectorRows = new mvl::GVector4f[DIMENSION_FOUR];
 
 	for(int col = 0; col < DIMENSION_FOUR; col++)
 		for(int row = 0; row < DIMENSION_FOUR; row++)
@@ -31,7 +31,7 @@ Matrix4f::Matrix4f(float source[]):_vectorRows(NULL)
 
 Matrix4f::Matrix4f(const Matrix4f& orig):_vectorRows(NULL)
 {
-	_vectorRows = new Vector4f[DIMENSION_FOUR];
+	_vectorRows = new mvl::GVector4f[DIMENSION_FOUR];
 	for(int row = 0; row < DIMENSION_FOUR; row++)
 		_vectorRows[row] = orig._vectorRows[row];
 }
@@ -53,7 +53,7 @@ const Matrix4f& Matrix4f::operator = (const Matrix4f& rSide)
 		_vectorRows = NULL;
 	}
 	
-	_vectorRows = new Vector4f[DIMENSION_FOUR];
+	_vectorRows = new mvl::GVector4f[DIMENSION_FOUR];
 	for(int row = 0; row < DIMENSION_FOUR; row++)
 		_vectorRows[row] = rSide._vectorRows[row];			
 
@@ -71,14 +71,14 @@ void Matrix4f::scaleEntries(float scaleFactor)
 		_vectorRows[row].scale(scaleFactor);
 }
 
-Vector4f& Matrix4f::operator[] (int row)
+mvl::GVector4f& Matrix4f::operator[] (int row)
 {
 	assert(row >= 0);
 	assert(row < DIMENSION_FOUR);
 	return _vectorRows[row];
 }
 
-Vector4f& Matrix4f::operator[] (int row) const
+mvl::GVector4f& Matrix4f::operator[] (int row) const
 {
 	assert(row >= 0);
 	assert(row < DIMENSION_FOUR);
@@ -108,17 +108,17 @@ void Matrix4f::invert()
 
 }
 
-Vector4f Matrix4f::getRowVec(int row) const
+mvl::GVector4f Matrix4f::getRowVec(int row) const
 {
-	return Vector4f(_vectorRows[row]);
+	return mvl::GVector4f(_vectorRows[row]);
 }
 
-Vector4f Matrix4f::getColVec(int col) const
+mvl::GVector4f Matrix4f::getColVec(int col) const
 {
-	Vector4f colVec;
+	mvl::GVector4f colVec;
 	for(int row = 0; row < DIMENSION_FOUR; row++)
 	{
-		Vector4f rowVec = (const Vector4f) _vectorRows[row];
+		mvl::GVector4f rowVec = (const mvl::GVector4f) _vectorRows[row];
 		colVec[row] = (const float) rowVec[col];
 	}
 
@@ -247,13 +247,13 @@ Matrix4f mult(const Matrix4f& m1, const Matrix4f& m2)
 	return result;
 }
 
-Vector4f mult(const Matrix4f& m, const Vector4f& v)
+mvl::GVector4f mult(const Matrix4f& m, const mvl::GVector4f& v)
 {
     //cout << "Multiplying: " << m.toString() << endl;
     //cout << "By the vector: " << v.toString() << endl;
     
     
-    Vector4f result;
+    mvl::GVector4f result;
     for(int row = 0; row < 4; row++)
 	for(int col = 0; col < 4; col++)
 	    result[row] = dot(m.getRowVec(row), v);

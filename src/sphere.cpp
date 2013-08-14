@@ -15,23 +15,24 @@
  */
 
 #include "sphere.h"
+#include "graphics_vector_utils.h"
 
-Sphere::Sphere(const Vector4f& center, float radius): _center(center), _radius(radius)
+Sphere::Sphere(const mvl::GVector3f& center, float radius): _center(center), _radius(radius)
 	{}
 
 float Sphere::rayStrikesObject(const Ray& ray)
 {
 	//    float r = 5.0f;
-	//    Vector4f center(0.0f, 0.0f, -6.0f, 1.0f);
+	//    mvl::GVector4f center(0.0f, 0.0f, -6.0f, 1.0f);
 
-	Vector4f deltaP = sub(_center, ray.getOrigin());
+	mvl::GVector3f deltaP = sub(_center, ray.getOrigin());
 
-	float discrim = pow(dot3f(deltaP, ray.getDir()), 2) - pow(mag3f(deltaP), 2) + pow(_radius, 2);
+	float discrim = pow(mvl::dot(deltaP, ray.getDir()), 2) - pow(deltaP.getMagnitude(), 2) + pow(_radius, 2);
 	if (discrim < 0)
 		return -1;
 
 
-	float a = dot3f(ray.getDir(), deltaP);
+	float a = mvl::dot(ray.getDir(), deltaP);
 	float b = sqrt(discrim);
 
 	float t1 = a + b;
@@ -41,9 +42,9 @@ float Sphere::rayStrikesObject(const Ray& ray)
 	return minAndSig(t1, t2);
 }
 
-Vector4f Sphere::getNormal(const Vector4f& pointOnObj) const
+mvl::GVector3f Sphere::getNormal(const mvl::GVector3f& pointOnObj) const
 {
-    Vector4f normal = sub(pointOnObj, _center);
-    normalize(&normal);
+    mvl::GVector3f normal = sub(pointOnObj, _center);
+	normal.normalize();
     return normal;
 }

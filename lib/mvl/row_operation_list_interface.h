@@ -14,45 +14,38 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _RAY_TRACER_H_
-#define _RAY_TRACER_H_
+#ifndef _ROW_OPERATION_LIST_INTERFACE_H_
+#define _ROW_OPERATION_LIST_INTERFACE_H_
 
-#include <boost/shared_ptr.hpp>
-#include "eye.h"
-#include "screen.h"
-#include "ray.h"
-#include "graphics_vector.h"
-#include "sphere.h"
-#include "scene.h"
+#include "matrix_interface.h"
+#include "row_operation_interface.h"
 
-using namespace std;
-
-/**
- * Represents the ray tracing algorithm. Contains
- * all of the essential components.
- */
-class RayTracer
+namespace mvl
 {
+	/**
+	 * Interface for a list of row operations
+	 */
+	template <class T>
+	class IRowOperationList
+	{
 	public:
-	    /**
-	     * Constructor
-             */
-	    RayTracer(const mvl::GVector3f& eye, Screen& screen);
-	    
-	    /**
-	     * Performs the ray tracing algorithm
-	     */
-	    void trace(const Scene& scene);
-	    
-	private:
-	    /**The eye of the viewer*/
-	    mvl::GVector3f _eye;
-	    /**The screen we project on*/
-	    Screen& _screen;
-	    /**The seen we will trace*/
-	    Scene _scene;
-	    /**Stochastic antialiasing*/
-	    static const int STOCHASTIC_ANTIALIASING = 4;
-};
+		/**
+		 * Destructor
+		 */
+		virtual ~IRowOperationList()
+		{
+		}
 
+		/**
+		 * Adds a new row operation to the list
+		 * @param rowOp
+		 */
+		virtual void add(const IRowOperation<T>& rowOp) = 0;
+
+		/**
+		 * Applies the list of operations to a given matrix 
+		 */
+		virtual void applyOperations(IMatrix<T>& mat) = 0;
+	};
+}
 #endif

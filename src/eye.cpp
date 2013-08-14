@@ -15,44 +15,52 @@
  */
 
 #include "eye.h"
+#include "graphics_vector_utils.h"
 
 Eye::Eye()
+	:_location(),
+	_lookAt(),
+	_up(),
+	_dir()
 {
     
 }
 
-Eye::Eye(const Vector4f& location, 
-		const Vector4f& lookAt,
-		const Vector4f& up): _location(location), _lookAt(lookAt), 
-		_dir(sub(lookAt, location))
+Eye::Eye(const mvl::GVector3f& location, 
+		const mvl::GVector3f& lookAt,
+		const mvl::GVector3f& up)
+	: _location(location), 
+	_lookAt(lookAt), 
+	_up(up),
+	_dir(sub(lookAt, location))
 {
-    normalize(&_dir);
-    Vector4f viewDir = sub(lookAt, location);
+	_dir.normalize();
+    mvl::GVector3f viewDir = sub(lookAt, location);
     
     // if the look at and  up vector are not already perpendicular
     if(!closeTo(dot(viewDir, up), 0, .000001))
     {
-	Vector4f sideVector = cross(lookAt, up);
-	_up = cross(sideVector, viewDir);
+		mvl::GVector3f sideVector = cross(lookAt, up);
+		_up = cross(sideVector, viewDir);
     }
     else
     {
-	_up = up;
+		_up = up;
     }
 	
 }
 
-Vector4f Eye::getDir() const
+mvl::GVector3f Eye::getDir() const
 {
     return _dir;
 }
 
-Vector4f Eye::getLocation() const
+mvl::GVector3f Eye::getLocation() const
 {
     return _location;
 }
 
-Vector4f Eye::getUp() const
+mvl::GVector3f Eye::getUp() const
 {
     return _up;
 }

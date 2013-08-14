@@ -16,7 +16,7 @@
 
 #include "vertex.h"
 
-Vertex::Vertex(const Vector4f& vertex, const Vector4f& color):
+Vertex::Vertex(const mvl::GVector4f& vertex, const mvl::GVector4f& color):
 	_vertex(vertex), _color(color)
 {
 }
@@ -24,27 +24,27 @@ Vertex::Vertex(const Vector4f& vertex, const Vector4f& color):
 Vertex::~Vertex()
 	{}
 
-Vector4f& Vertex::getVertex()
+mvl::GVector4f& Vertex::getVertex()
 {
 	return _vertex;
 }
 
-const Vector4f Vertex::getVertex() const
+const mvl::GVector4f Vertex::getVertex() const
 {
 	return _vertex;
 }
 
-/*Vector4f* Vertex::getVertex()
+/*mvl::GVector4f* Vertex::getVertex()
 {
     return &_vertex;
 }*/
 
-Vector4f& Vertex::getColor()
+mvl::GVector4f& Vertex::getColor()
 {
 	return _color;
 }
 
-const Vector4f& Vertex::getColor() const
+const mvl::GVector4f& Vertex::getColor() const
 {
 	return _color;
 }

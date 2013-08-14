@@ -49,12 +49,12 @@ class IlluminatedObject
 		 * Sets the color of the object
 		 * @param color
 		 */
-		void setColor(const Vector4f color);
+		void setColor(const mvl::GVector4f color);
 
 		/**
 		 * Gets the color for the object 
 		 */
-		Vector4f getColor() const;
+		mvl::GVector4f getColor() const;
 
 		/**
 		 * Sets the diffuse and ambient coefficient
@@ -90,7 +90,7 @@ class IlluminatedObject
 		 * @param t
 		 * @return 
 		 */
-		virtual Vector4f getNormal(const Vector4f& pointOnObj) const = 0;
+		virtual mvl::GVector3f getNormal(const mvl::GVector3f& pointOnObj) const = 0;
 
 		/**
 		 * Helper function for preventing intersecting with same
@@ -100,7 +100,7 @@ class IlluminatedObject
 
 	private:
 		/**Color of the object*/
-		Vector4f _color;
+		mvl::GVector4f _color;
 		/**The reflection coefficient, somewhere in the range [0, 1]*/
 		float _kReflect;
 		/**The diffuse and ambient coefficient, somewhere in the range [0, 1]*/
@@ -113,7 +113,7 @@ class IlluminatedObject
          * @param scene
          * @param intensitySum
          */
-		Vector4f getDiffuseAmbientIntensity(const LightRay& incomingRay, const Scene& scene) const;
+		mvl::GVector4f getDiffuseAmbientIntensity(const LightRay& incomingRay, const Scene& scene) const;
 
 		/**
 		 * Traces a the reflecting ray spawned by the incoming ray 
@@ -125,7 +125,7 @@ class IlluminatedObject
 		 * @return The contribution from reflection will be added to the 
 		 * intensitySum.  
          */
-		Vector4f getReflectionIntensity(const LightRay& incomingRay, const Scene& scene) const;
+		mvl::GVector4f getReflectionIntensity(const LightRay& incomingRay, const Scene& scene) const;
 
 		// Undefined canonicals
 		IlluminatedObject(const IlluminatedObject& cpy);

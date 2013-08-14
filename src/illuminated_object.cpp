@@ -17,6 +17,7 @@
 #include <memory>
 #include <cmath>
 #include <vector>
+#include "graphics_vector_utils.h"
 #include "illuminated_object.h"
 #include "sphere.h" // TODO: remove
 #include "light_ray.h"
@@ -25,7 +26,7 @@
 #include "cstdlib"
 
 IlluminatedObject::IlluminatedObject()
-	:_color(Vector4f(0.2f, 0.2f, 0.2f, 1.0f)), 
+	:_color(mvl::GVector4f(0.2f, 0.2f, 0.2f, 1.0f)), 
 	_kDiffuse(1.0f), 
 	_kReflect(0.3f)
 {
@@ -34,15 +35,15 @@ IlluminatedObject::IlluminatedObject()
 float IlluminatedObject::rayStrikesObject(const Ray& ray)
 {
     float r = 5.0f;
-    Vector4f center(0.0f, 0.0f, -6.0f, 1.0f);
+    mvl::GVector3f center(0.0f, 0.0f, -6.0f);
     
-    Vector4f deltaP = sub(center, ray.getOrigin());
+    mvl::GVector3f deltaP = sub(center, ray.getOrigin());
     
-    float discrim = pow(dot3f(deltaP, ray.getDir()), 2) - pow(mag3f(deltaP), 2) + pow(r, 2);
+    float discrim = pow(mvl::dot(deltaP, ray.getDir()), 2) - pow(deltaP.getMagnitude(), 2) + pow(r, 2);
     if(discrim < 0)
 	return -1;
     
-    float a = dot3f(ray.getDir(), deltaP);
+    float a = mvl::dot(ray.getDir(), deltaP);
     float b = sqrt(discrim);
     
     float t1 = a + b;
@@ -51,84 +52,92 @@ float IlluminatedObject::rayStrikesObject(const Ray& ray)
     return min(t1, t2);
 }
 
-void IlluminatedObject::setColor(const Vector4f color)
+void IlluminatedObject::setColor(const mvl::GVector4f color)
 {
     _color = color;
 }
 
-Vector4f IlluminatedObject::getColor() const
+mvl::GVector4f IlluminatedObject::getColor() const
 {
     return _color;
 }
 
-Vector4f IlluminatedObject::getDiffuseAmbientIntensity(const LightRay& incomingRay, const Scene& scene) const
+mvl::GVector4f IlluminatedObject::getDiffuseAmbientIntensity(const LightRay& incomingRay, const Scene& scene) const
 {
 	// shoot a shadow ray at each light, if it hits it becomes an illumination
 	// ray and we calculate its contribution
-	Vector4f diffAmbLight;
+	mvl::GVector4f diffAmbLight;
 	vector<LambertLight*> lightsInScene = scene.getLights();
 	for (vector<LambertLight*>::const_iterator lightsItr = lightsInScene.begin();
 			lightsItr != lightsInScene.end();
 			lightsItr++)
 	{
 		// create a ray from intersection to the light
-		Vector4f rayOrigin = incomingRay.getPoint();
-		Vector4f dirToLight = sub((*lightsItr)->getPos(), rayOrigin);
-		float distToLight = mag3f(dirToLight);
-		normalize(&dirToLight);
+		mvl::GVector3f rayOrigin = incomingRay.getPoint();
+		mvl::GVector3f dirToLight = sub((*lightsItr)->getPos(), rayOrigin);
+		float distToLight = dirToLight.getMagnitude();
+		dirToLight.normalize();
 		Ray rayToLight(rayOrigin, dirToLight);
 
 		const shared_ptr<IlluminatedObject> obstructingObj = scene.closestObj(rayToLight);
-		float distToHider = ((obstructingObj == NULL) ?
-				FLT_MAX :
-				mag3f(sub(rayToLight.getOrigin(), rayToLight.getPoint())));
+
+		float distToHider = 0.0f;
+		if(obstructingObj == NULL)
+		{
+			distToHider = FLT_MAX;
+		}
+		else
+		{
+			mvl::GVector3f diff = sub(rayToLight.getOrigin(), rayToLight.getPoint());
+			distToHider = diff.getMagnitude();
+		}
 
 		bool objectIsHider = distToLight > distToHider;
 		if (!objectIsHider)
 		{
-			float shade = max(dot3f(getNormal(incomingRay.getPoint()), dirToLight), 0.0f);
-			Vector4f diffComp = scale((*lightsItr)->getDiffuse(), shade);
-			diffAmbLight = add(diffAmbLight, diffComp);
+			float shade = max(mvl::dot(getNormal(incomingRay.getPoint()), dirToLight), 0.0f);
+			mvl::GVector4f diffComp = mvl::scaledCopy((*lightsItr)->getDiffuse(), shade);
+			diffAmbLight = mvl::add(diffAmbLight, diffComp);
 		} 
 
-		diffAmbLight = add(diffAmbLight, (*lightsItr)->getAmbient());
+		diffAmbLight = mvl::add(diffAmbLight, (*lightsItr)->getAmbient());
 	}
 
-	Vector4f diffAmbIntensity = pwMult(getColor(), diffAmbLight);
-	diffAmbIntensity = scale(diffAmbIntensity, _kDiffuse);
+	mvl::GVector4f diffAmbIntensity = mvl::pointwiseMult(getColor(), diffAmbLight);
+	diffAmbIntensity.scale(_kDiffuse);
 
 	return diffAmbIntensity;
 
 }
 
-Vector4f IlluminatedObject::getReflectionIntensity(const LightRay& incomingRay, const Scene& scene) const
+mvl::GVector4f IlluminatedObject::getReflectionIntensity(const LightRay& incomingRay, const Scene& scene) const
 {
-	Vector4f refelectionIntensity;
+	mvl::GVector4f refelectionIntensity;
 
 	if(_kReflect == 0)
 		return refelectionIntensity;
 	if(incomingRay.getDepth() >= 8)
 		return refelectionIntensity;
 
-	float c1 = -dot3f(getNormal(incomingRay.getPoint()), incomingRay.getDir());
-	Vector4f reflectedDir = add(incomingRay.getDir(), scale(getNormal(incomingRay.getPoint()), 2 * c1));
+	float c1 = -mvl::dot(getNormal(incomingRay.getPoint()), incomingRay.getDir());
+	mvl::GVector3f reflectedDir = add(incomingRay.getDir(), mvl::scaledCopy(getNormal(incomingRay.getPoint()), 2 * c1));
 	LightRay reflectedRay(incomingRay.getPoint(), reflectedDir, incomingRay.getDepth() + 1);
 
 	const std::shared_ptr<IlluminatedObject> object = scene.closestObj(reflectedRay);
 	if (object != NULL)
 		object->getIntensity(reflectedRay, scene);
 
-	refelectionIntensity = scale(reflectedRay.getColor(), _kReflect);
+	refelectionIntensity = mvl::scaledCopy(reflectedRay.getColor(), _kReflect);
 
 	return refelectionIntensity; 
 }
 
 void IlluminatedObject::getIntensity(LightRay& incomingRay, const Scene& scene) const
 {
-	Vector4f diffuseAmbientIntensity = getDiffuseAmbientIntensity(incomingRay, scene);
-	Vector4f reflectionIntensity = getReflectionIntensity(incomingRay, scene);
+	mvl::GVector4f diffuseAmbientIntensity = getDiffuseAmbientIntensity(incomingRay, scene);
+	mvl::GVector4f reflectionIntensity = getReflectionIntensity(incomingRay, scene);
 
-	Vector4f intensity = add(diffuseAmbientIntensity, reflectionIntensity);
+	mvl::GVector4f intensity = add(diffuseAmbientIntensity, reflectionIntensity);
 	incomingRay.setColor(intensity);
 }
 

@@ -9,7 +9,7 @@ LIB = lib/
 #testing vars
 
 CFLAGS = -std=c++11
-INC_PATHS = -I$(INC) -I$(LIB)gmath
+INC_PATHS = -I$(INC) -I$(LIB)mvl
 
 OBJS = $(OBJ)main.o \
 	$(OBJ)byu_gl.o \
@@ -75,15 +75,10 @@ RTOBJS = $(OBJ)main.o \
 	$(OBJ)camera.o\
 	$(OBJ)plane.o\
 	$(OBJ)rtriangle.o\
-	$(OBJ)matrix.o \
-	$(OBJ)vector.o \
-	$(OBJ)vector4f.o \
-	$(OBJ)matrix4f.o \
-	$(OBJ)vertex.o \
-	$(OBJ)square_matrix_stack.o \
-	$(OBJ)matrix4f_stack.o \
 	$(OBJ)plane_depth_calculator.o \
 	$(OBJ)screen_raster.o 
+
+# INC_PATHS = -I$(INC) -I$(LIB)gmath
 
 # main program
 
@@ -91,81 +86,60 @@ gl: $(RTOBJS)
 	g++ $(CFLAGS) -o $(BIN)gl $(RTOBJS) -lglut -lGLU -lGL -lGLEW
 
 $(OBJ)main.o: $(SRC)main.cpp $(INC)matrix.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)main.o -I$(INC) $(SRC)main.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)main.o $(INC_PATHS) $(SRC)main.cpp
 
 # ray tracing algorithm
 
 $(OBJ)ray_tracer.o: $(SRC)ray_tracer.cpp $(INC)ray_tracer.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)ray_tracer.o -I$(INC) $(SRC)ray_tracer.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)ray_tracer.o $(INC_PATHS) $(SRC)ray_tracer.cpp
 
 $(OBJ)eye.o: $(SRC)eye.cpp $(INC)eye.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)eye.o -I$(INC) $(SRC)eye.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)eye.o $(INC_PATHS) $(SRC)eye.cpp
 
 $(OBJ)screen.o: $(SRC)screen.cpp $(INC)screen.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)screen.o -I$(INC) $(SRC)screen.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)screen.o $(INC_PATHS) $(SRC)screen.cpp
 
 $(OBJ)ray.o: $(SRC)ray.cpp $(INC)ray.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)ray.o -I$(INC) $(SRC)ray.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)ray.o $(INC_PATHS) $(SRC)ray.cpp
 
 $(OBJ)illuminated_object.o: $(SRC)illuminated_object.cpp $(INC)illuminated_object.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)illuminated_object.o -I$(INC) $(SRC)illuminated_object.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)illuminated_object.o $(INC_PATHS) $(SRC)illuminated_object.cpp
 
 $(OBJ)math_utils.o: $(SRC)math_utils.cpp $(INC)math_utils.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)math_utils.o -I$(INC) $(SRC)math_utils.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)math_utils.o $(INC_PATHS) $(SRC)math_utils.cpp
 
 $(OBJ)sphere.o: $(SRC)sphere.cpp $(INC)sphere.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)sphere.o -I$(INC) $(SRC)sphere.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)sphere.o $(INC_PATHS) $(SRC)sphere.cpp
 
 $(OBJ)lambert_light.o: $(SRC)lambert_light.cpp $(INC)lambert_light.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)lambert_light.o -I$(INC) $(SRC)lambert_light.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)lambert_light.o $(INC_PATHS) $(SRC)lambert_light.cpp
 
 $(OBJ)scene.o: $(SRC)scene.cpp $(INC)scene.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)scene.o -I$(INC) $(SRC)scene.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)scene.o $(INC_PATHS) $(SRC)scene.cpp
 
 $(OBJ)light_ray.o: $(SRC)light_ray.cpp $(INC)light_ray.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)light_ray.o -I$(INC) $(SRC)light_ray.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)light_ray.o $(INC_PATHS) $(SRC)light_ray.cpp
 
 $(OBJ)camera.o: $(SRC)camera.cpp $(INC)camera.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)camera.o -I$(INC) $(SRC)camera.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)camera.o $(INC_PATHS) $(SRC)camera.cpp
 
 $(OBJ)plane.o: $(SRC)plane.cpp $(INC)plane.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)plane.o -I$(INC) $(SRC)plane.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)plane.o $(INC_PATHS) $(SRC)plane.cpp
 
 $(OBJ)rtriangle.o: $(SRC)rtriangle.cpp $(INC)rtriangle.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)rtriangle.o -I$(INC) $(SRC)rtriangle.cpp
-
-$(OBJ)vector.o: $(SRC)vector.cpp $(INC)vector.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)vector.o -I$(INC) $(SRC)vector.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)rtriangle.o $(INC_PATHS) $(SRC)rtriangle.cpp
 
 $(OBJ)gl.o: $(SRC)byu_gl.cpp $(INC)byu_gl.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)gl.o -I$(INC) $(SRC)byu_gl.cpp
-
-$(OBJ)matrix.o: $(SRC)matrix.cpp $(INC)matrix.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)matrix.o -I$(INC) $(SRC)matrix.cpp
-
-$(OBJ)vector4f.o: $(SRC)vector4f.cpp $(INC)vector4f.h $(INC)vector.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)vector4f.o -I$(INC) $(SRC)vector4f.cpp
-
-$(OBJ)matrix4f.o: $(SRC)matrix4f.cpp $(INC)matrix4f.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)matrix4f.o -I$(INC) $(SRC)matrix4f.cpp
-
-$(OBJ)vertex.o: $(SRC)vertex.cpp $(INC)vertex.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)vertex.o -I$(INC) $(SRC)vertex.cpp
-
-$(OBJ)square_matrix_stack.o: $(SRC)square_matrix_stack.cpp $(INC)square_matrix_stack.h $(INC)matrix.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)square_matrix_stack.o -I$(INC) $(SRC)square_matrix_stack.cpp
-
-$(OBJ)matrix4f_stack.o: $(SRC)matrix4f_stack.cpp $(INC)matrix4f_stack.h $(INC)matrix.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)matrix4f_stack.o -I$(INC) $(SRC)matrix4f_stack.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)gl.o $(INC_PATHS) $(SRC)byu_gl.cpp
 
 $(OBJ)raster.o: $(SRC)raster.cpp $(INC)raster.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)raster.o -I$(INC) $(SRC)raster.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)raster.o $(INC_PATHS) $(SRC)raster.cpp
 
 $(OBJ)screen_raster.o: $(SRC)screen_raster.cpp $(INC)screen_raster.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)screen_raster.o -I$(INC) $(SRC)screen_raster.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)screen_raster.o $(INC_PATHS) $(SRC)screen_raster.cpp
 
 $(OBJ)plane_depth_calculator.o: $(SRC)plane_depth_calculator.cpp $(INC)plane_depth_calculator.h
-	g++ $(CFLAGS) -c -g -o $(OBJ)plane_depth_calculator.o -I$(INC) $(SRC)plane_depth_calculator.cpp
+	g++ $(CFLAGS) -c -g -o $(OBJ)plane_depth_calculator.o $(INC_PATHS) $(SRC)plane_depth_calculator.cpp
 
 # unit tests
 #./$(BIN)test-main \

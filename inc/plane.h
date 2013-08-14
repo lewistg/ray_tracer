@@ -13,7 +13,7 @@ class Plane:public IlluminatedObject
 	/**
 	 * Constructor
          */
-	Plane(const Vector4f& pointOnPlane, const Vector4f& normal);
+	Plane(const mvl::GVector3f& pointOnPlane, const mvl::GVector3f& normal);
 	
 	/**
 	 * Override
@@ -24,20 +24,20 @@ class Plane:public IlluminatedObject
 	 * Getter for the normal of the plane
          * @return 
          */
-	Vector4f getNormal() const;
+	mvl::GVector3f getNormal() const;
 	
     protected:
 	/**
 	 * Override
          */
-	virtual Vector4f getNormal(const Vector4f& pointOnObj) const;
+	virtual mvl::GVector3f getNormal(const mvl::GVector3f& pointOnObj) const;
 	
     private:
 	/**Constants from the plane equation*/
 	float _D;
 	
 	/**Normal*/
-	Vector4f _normal;
+	mvl::GVector3f _normal;
 };
 
 #endif

@@ -17,7 +17,7 @@
 #ifndef _RAY_H_
 #define _RAY_H_
 
-#include "vector4f.h"
+#include "graphics_vector.h"
 
 using namespace std;
 /**
@@ -34,7 +34,7 @@ class Ray
 		/**
 		 * Constructs a new ray
 		 */
-		Ray(const Vector4f& pos, const Vector4f& dir);
+		Ray(const mvl::GVector3f& pos, const mvl::GVector3f& dir);
 
 		/**
 		 * Sets the current t
@@ -47,36 +47,36 @@ class Ray
 		 * Sets the position of the ray's origin of the ray
 		 * @param dir
 		 */
-		void setOriginPos(const Vector4f& originPos);
+		void setOriginPos(const mvl::GVector3f& originPos);
 
 		/**
 		 * Sets the direction of the ray
 		 * @return 
 		 */
-		void setDir(const Vector4f& dir);
+		void setDir(const mvl::GVector3f& dir);
 
 		/**
 		 * Gets the point associated with the current param
 		 * @param t
 		 * @return 
 		 */
-		Vector4f getPoint() const;
+		mvl::GVector3f getPoint() const;
 
 		/**
 		 * Given the parameter t, find the point along the ray.
 		 * Does not set the current t value
 		 */
-		Vector4f getPoint(float t) const;
+		mvl::GVector3f getPoint(float t) const;
 
 		/**
 		 * Gets the origin of the ray
 		 */
-		Vector4f getOrigin() const;
+		mvl::GVector3f getOrigin() const;
 
 		/**
 		 * Gets the direction of the vector
 		 */
-		Vector4f getDir() const;
+		mvl::GVector3f getDir() const;
 
 		/**
 		 * Gets the current parameter
@@ -91,9 +91,9 @@ class Ray
 
 	private:
 		/**Origin of the ray*/
-		Vector4f _originPos;
+		mvl::GVector3f _originPos;
 		/**Direction of the ray*/
-		Vector4f _dir;
+		mvl::GVector3f _dir;
 		/**The current t value*/
 		float _t;
 };

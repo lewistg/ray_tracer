@@ -18,47 +18,52 @@
 #include "matrix_state.h"
 
 LambertLight::LambertLight()
-	{}
-
-
-void LambertLight::setDiffuse(const Vector4f& diffuseComps)
+	:_diffuseComps(),
+	_ambientComps(),
+	_specularComps(),
+	_pos()
 {
-    _diffuseComps = Vector4f(diffuseComps);
 }
 
-Vector4f LambertLight::getDiffuse()
+
+void LambertLight::setDiffuse(const mvl::GVector4f& diffuseComps)
+{
+    _diffuseComps = mvl::GVector4f(diffuseComps);
+}
+
+mvl::GVector4f LambertLight::getDiffuse()
 {
     return _diffuseComps;
 }
 
-void LambertLight::setAmbient(const Vector4f& ambComps)
+void LambertLight::setAmbient(const mvl::GVector4f& ambComps)
 {
-    _ambientComps = Vector4f(ambComps);
+    _ambientComps = mvl::GVector4f(ambComps);
 }
 
 
-Vector4f LambertLight::getAmbient()
+mvl::GVector4f LambertLight::getAmbient()
 {
     return _ambientComps;
 }
 
-void LambertLight::setSpecular(const Vector4f& specularComps)
+void LambertLight::setSpecular(const mvl::GVector4f& specularComps)
 {
     _specularComps = specularComps;
 }
 
-Vector4f LambertLight::getSpecular()
+mvl::GVector4f LambertLight::getSpecular()
 {
     return _specularComps;
 }
 
-void LambertLight::setPos(const Vector4f& pos)
+void LambertLight::setPos(const mvl::GVector3f& pos)
 {
-    _pos = Vector4f(pos);
+    _pos = mvl::GVector3f(pos);
     //_pos = mult(MatrixState::getInstance().getActiveModelViewMatrix(), _pos);
 }
 
-Vector4f LambertLight::getPos() const
+mvl::GVector3f LambertLight::getPos() const
 {
     return _pos;
 }

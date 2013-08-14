@@ -15,43 +15,54 @@
  */
 
 #include "screen.h"
+#include "graphics_vector_utils.h"
+#include "vector4f.h"
 
-Screen::Screen(int w, int h, float unitsPerPix, const Vector4f& center, const Vector4f& negZ, 
-	const Vector4f& posY):_width(w), _height(h), _unitsPerPix(unitsPerPix), _pixDim(unitsPerPix)
+Screen::Screen(int w, int h, float unitsPerPix, const mvl::GVector3f& center, const mvl::GVector3f& negZ, 
+	const mvl::GVector3f& posY)
+	:_width(w), 
+	_height(h), 
+	_unitsPerPix(unitsPerPix), 
+	_pixDim(unitsPerPix),
+	_ulCornerPixCenter(),
+	_xBasis(),
+	_yBasis()
 {
     // positive y in the image space points down
-    _yBasis = scale(posY,-1);
-    normalize(&_yBasis);
+    _yBasis = mvl::scaledCopy(posY,-1.0f);
+	_yBasis.normalize();
     
-    _xBasis = cross(_yBasis, negZ);
+    _xBasis = mvl::cross(_yBasis, negZ);
     cout << _xBasis.toString() << endl;
-    normalize(&_xBasis);
+	_xBasis.normalize();
     
     float wWorldCoords = (w * unitsPerPix);
     float hWorldCoords = (h * unitsPerPix);
     
-    Vector4f ulCornerYOffset = posY;
-    normalize(&ulCornerYOffset);
-    ulCornerYOffset.scale(hWorldCoords / 2);
+    mvl::GVector3f ulCornerYOffset = posY;
+	ulCornerYOffset.normalize();
+    ulCornerYOffset.scale(hWorldCoords / 2.0f);
     
-    Vector4f ulCornerXOffset = _xBasis;
-    normalize(&ulCornerXOffset);
-    ulCornerXOffset.scale(-wWorldCoords / 2);
+    mvl::GVector3f ulCornerXOffset = _xBasis;
+	ulCornerXOffset.normalize();
+    ulCornerXOffset.scale(-wWorldCoords / 2.0f);
     
     _ulCornerPixCenter = add(center, ulCornerYOffset);
     _ulCornerPixCenter = add(_ulCornerPixCenter, ulCornerXOffset);
-    x(_ulCornerPixCenter) += _pixDim / 2;
-    y(_ulCornerPixCenter) += _pixDim / 2;
+    x(_ulCornerPixCenter) += _pixDim / 2.0f;
+    y(_ulCornerPixCenter) += _pixDim / 2.0f;
     
     cout << center.toString() << endl;
     cout << "Top left pixel center: " << _ulCornerPixCenter.toString() << endl;
 }
 
-void Screen::setPixel(int x, int y, const Vector4f& color)
+void Screen::setPixel(int x, int y, const mvl::GVector4f& color)
 {
     assert(x < _width);
     assert(y < _height);
-    _raster.setPixel(x, _height - y - 1, color.getData());
+	float colorData[4];
+	color.getData(colorData);
+    _raster.setPixel(x, _height - y - 1, colorData);
 }
 
 const void* Screen::getRasterData() const
@@ -59,36 +70,36 @@ const void* Screen::getRasterData() const
     return _raster.getData();
 }
 
-Vector4f Screen::getPointInPixel(float x, float y)
+mvl::GVector3f Screen::getPointInPixel(float x, float y)
 {
     assert(x >= 0 && x < _width);
     assert(y >= 0 && y < _height);
     
-    Vector4f offsetToPoint = _ulCornerPixCenter;
-    offsetToPoint = add(offsetToPoint, scale(_xBasis, x * _unitsPerPix));
-    offsetToPoint = add(offsetToPoint, scale(_yBasis, y * _unitsPerPix));
+    mvl::GVector3f offsetToPoint = _ulCornerPixCenter;
+    offsetToPoint = add(offsetToPoint, mvl::scaledCopy(_xBasis, x * _unitsPerPix));
+    offsetToPoint = add(offsetToPoint, mvl::scaledCopy(_yBasis, y * _unitsPerPix));
     
     return offsetToPoint;
 }
 
-Vector4f Screen::getPointInPixel(int x, int y, float unitX, float unitY)
+mvl::GVector3f Screen::getPointInPixel(int x, int y, float unitX, float unitY)
 {
     assert(unitX >= 0 && unitX <= 1);
     assert(unitY >= 0 && unitY <= 1);
     
     // get the lower left corner of the pixel in world coordinates
-    Vector4f llPixCornerWc = _ulCornerPixCenter;
-    llPixCornerWc = add(llPixCornerWc, scale(_xBasis, x * _unitsPerPix));
-    llPixCornerWc = add(llPixCornerWc, scale(_yBasis, y * _unitsPerPix));
+    mvl::GVector3f llPixCornerWc = _ulCornerPixCenter;
+    llPixCornerWc = add(llPixCornerWc, scaledCopy(_xBasis, x * _unitsPerPix));
+    llPixCornerWc = add(llPixCornerWc, scaledCopy(_yBasis, y * _unitsPerPix));
     
     // get the scale factors to get the point from 
     float xWcScale = _unitsPerPix * unitX;
-    Vector4f xOffset = scale(_xBasis, xWcScale);
+    mvl::GVector3f xOffset = scaledCopy(_xBasis, xWcScale);
     
     float yWcScale = -_unitsPerPix * unitY;
-    Vector4f yOffset = scale(_yBasis, yWcScale);
+    mvl::GVector3f yOffset = scaledCopy(_yBasis, yWcScale);
     
-    Vector4f point = add(llPixCornerWc, xOffset);
+    mvl::GVector3f point = add(llPixCornerWc, xOffset);
     point = add(point, yOffset);
     
     return point;

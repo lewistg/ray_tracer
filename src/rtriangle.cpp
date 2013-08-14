@@ -17,8 +17,9 @@
 #include "rtriangle.h"
 #include "math_utils.h"
 #include "plane_depth_calculator.h"
+#include "graphics_vector_utils.h"
 
-RTriangle::RTriangle(const Vector4f& p0, const Vector4f& p1, const Vector4f& p2) 
+RTriangle::RTriangle(const mvl::GVector3f& p0, const mvl::GVector3f& p1, const mvl::GVector3f& p2) 
 	: _p0(p0), 
 	_p1(p1), 
 	_p2(p2), 
@@ -35,11 +36,11 @@ float RTriangle::rayStrikesObject(const Ray& ray)
 		return -1;
 
 	// find the plane of fattest projection
-	float nDotX = abs(dot3f(_plane.getNormal(), Vector4f(1.0f, 0.0f, 0.0f, 1.0f)));
-	float nDotY = abs(dot3f(_plane.getNormal(), Vector4f(0.0f, 1.0f, 0.0f, 1.0f)));
-	float nDotZ = abs(dot3f(_plane.getNormal(), Vector4f(0.0f, 0.0f, 1.0f, 1.0f)));
+	float nDotX = abs(mvl::dot(_plane.getNormal(), mvl::GVector3f(1.0f, 0.0f, 0.0f)));
+	float nDotY = abs(mvl::dot(_plane.getNormal(), mvl::GVector3f(0.0f, 1.0f, 0.0f)));
+	float nDotZ = abs(mvl::dot(_plane.getNormal(), mvl::GVector3f(0.0f, 0.0f, 1.0f)));
 
-	Vector4f pointOnPlane = ray.getPoint(t);
+	mvl::GVector3f pointOnPlane = ray.getPoint(t);
 
 	float detT = 0;
 	float lambda1 = 0;
@@ -85,7 +86,7 @@ float RTriangle::rayStrikesObject(const Ray& ray)
 		return -1;
 }
 
-Vector4f RTriangle::getNormal(const Vector4f& pointOnObj) const
+mvl::GVector3f RTriangle::getNormal(const mvl::GVector3f& pointOnObj) const
 {
 	return _plane.getNormal();
 }

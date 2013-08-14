@@ -19,7 +19,7 @@
 
 #include <cmath>
 #include <cstdlib>
-#include "vector4f.h"
+#include "graphics_vector.h"
 #include "ray.h"
 
 /**
@@ -33,17 +33,17 @@ class LightRay: public Ray
 	 * @param pos
 	 * @param dir
 	 */
-	LightRay(const Vector4f& pos, const Vector4f& dir, int recursiveDepth);
+	LightRay(const mvl::GVector3f& pos, const mvl::GVector3f& dir, int recursiveDepth);
 	
 	/**
 	 * Gets the color
 	 */
-	Vector4f getColor() const;
+	mvl::GVector4f getColor() const;
 	
 	/**
 	 * Sets the the color of the light ray
 	 */
-	void setColor(const Vector4f& color);
+	void setColor(const mvl::GVector4f& color);
 	
 	/**
 	 * Gets the depth of the light ray
@@ -53,11 +53,11 @@ class LightRay: public Ray
 	/**
 	 * Adds a perturbation to the light ray
 	 */
-	void addPertb();
+	//void addPertb();
 	
     private:
 	/**The color of the light ray*/
-	Vector4f _color;
+	mvl::GVector4f _color;
 	/**The "recursive depth" of the ray*/
 	int _recursiveDepth;
 };

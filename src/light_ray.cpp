@@ -16,19 +16,19 @@
 
 #include "light_ray.h"
 
-LightRay::LightRay(const Vector4f& pos, const Vector4f& dir, int recursiveDepth)
+LightRay::LightRay(const mvl::GVector3f& pos, const mvl::GVector3f& dir, int recursiveDepth)
 	:Ray(pos, dir), 
 	_color(0.0f, 0.0f, 0.0f, 1.0f),
 	_recursiveDepth(recursiveDepth)
 {
 }
 
-Vector4f LightRay::getColor() const
+mvl::GVector4f LightRay::getColor() const
 {
     return _color;
 }
 
-void LightRay::setColor(const Vector4f& color)	
+void LightRay::setColor(const mvl::GVector4f& color)	
 {
     _color = color;
 }
@@ -38,9 +38,9 @@ int LightRay::getDepth() const
     return _recursiveDepth;
 }
 
-void LightRay::addPertb()
+/*void LightRay::addPertb()
 {
-    Vector4f dir = getDir();
+    mvl::GVector3f dir = getDir();
    
     float xPert = (2 * (float)rand()/(float) RAND_MAX - 1) / 500;
     float yPert = (2 * (float)rand()/(float) RAND_MAX - 1) / 500;
@@ -54,8 +54,8 @@ void LightRay::addPertb()
 		zPert = 0;
     
     
-    Vector4f pertb(xPert, yPert, zPert, 1.0f);    
+    mvl::GVector4f pertb(xPert, yPert, zPert, 1.0f);    
     
     dir = add(dir, pertb);
     setDir(dir);
-}
+}*/

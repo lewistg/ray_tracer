@@ -14,45 +14,26 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _RAY_TRACER_H_
-#define _RAY_TRACER_H_
+#ifndef _GRAPHICS_MATRIX_UTILS_H_
+#define _GRAPHICS_MATRIX_UTILS_H_
 
-#include <boost/shared_ptr.hpp>
-#include "eye.h"
-#include "screen.h"
-#include "ray.h"
+#include <string>
+#include <assert.h>
+#include "graphics_matrix.h"
 #include "graphics_vector.h"
-#include "sphere.h"
-#include "scene.h"
+#include "matrix_math.h"
+#include "matrix.h"
 
-using namespace std;
-
-/**
- * Represents the ray tracing algorithm. Contains
- * all of the essential components.
- */
-class RayTracer
+namespace mvl
 {
-	public:
-	    /**
-	     * Constructor
-             */
-	    RayTracer(const mvl::GVector3f& eye, Screen& screen);
-	    
-	    /**
-	     * Performs the ray tracing algorithm
-	     */
-	    void trace(const Scene& scene);
-	    
-	private:
-	    /**The eye of the viewer*/
-	    mvl::GVector3f _eye;
-	    /**The screen we project on*/
-	    Screen& _screen;
-	    /**The seen we will trace*/
-	    Scene _scene;
-	    /**Stochastic antialiasing*/
-	    static const int STOCHASTIC_ANTIALIASING = 4;
-};
+	template <class S, unsigned int R, unsigned int C>
+	GraphicsVector<S, C> mult(const GraphicsMatrix<S, R, C>& m, const GraphicsVector<S, C>& v)
+	{
+		Vector<S> vectorResult = mult(m._matrix, v._vector);
+		GraphicsVector<S, C> graphicsVectorResult(vectorResult);
+
+		return graphicsVectorResult;
+	}
+}
 
 #endif

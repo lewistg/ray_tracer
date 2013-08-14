@@ -14,45 +14,14 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _RAY_TRACER_H_
-#define _RAY_TRACER_H_
+#ifndef _GENERAL_MATH_UTILS_H_
+#define _GENERAL_MATH_UTILS_H_
 
-#include <boost/shared_ptr.hpp>
-#include "eye.h"
-#include "screen.h"
-#include "ray.h"
-#include "graphics_vector.h"
-#include "sphere.h"
-#include "scene.h"
-
-using namespace std;
-
-/**
- * Represents the ray tracing algorithm. Contains
- * all of the essential components.
- */
-class RayTracer
+namespace mvl 
 {
-	public:
-	    /**
-	     * Constructor
-             */
-	    RayTracer(const mvl::GVector3f& eye, Screen& screen);
-	    
-	    /**
-	     * Performs the ray tracing algorithm
-	     */
-	    void trace(const Scene& scene);
-	    
-	private:
-	    /**The eye of the viewer*/
-	    mvl::GVector3f _eye;
-	    /**The screen we project on*/
-	    Screen& _screen;
-	    /**The seen we will trace*/
-	    Scene _scene;
-	    /**Stochastic antialiasing*/
-	    static const int STOCHASTIC_ANTIALIASING = 4;
-};
+	const float SMALL_EPSILON = 0.001;
+	const float SMALLER_EPSILON = 0.0000001;
+	const float SMALLEST_EPSILON = 0.000000001;
+}
 
 #endif

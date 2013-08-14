@@ -18,7 +18,7 @@
 #define _VERTEX_H_
 
 #include <assert.h>
-#include "vector4f.h"
+#include "graphics_vector.h"
 
 using namespace gmath;
 
@@ -32,7 +32,7 @@ class Vertex
 		 * Constructs a Vertex from a vector and color
 		 * @pre vertex, color have 4 dimensions
 		 */
-		Vertex(const Vector4f& vertex, const Vector4f& color);
+		Vertex(const mvl::GVector4f& vertex, const mvl::GVector4f& color);
 		
 		/**
 		 * Destructor.
@@ -43,37 +43,37 @@ class Vertex
 		 * Gets the vertex Vector
 		 * @return A reference to the vertex.
 		*/
-		Vector4f& getVertex();
+		mvl::GVector4f& getVertex();
 		
 		/**
 		 * Gets the vertex Vector
 		 * @return A const reference to the vertex.
 		 */		
-		const Vector4f getVertex() const;
+		const mvl::GVector4f getVertex() const;
 		
 		/**
 		 * Gets a pointer to the internal Vector stored in this Vertex
                  * @return A pointer to the internal vertex
                  */
-		//Vector4f* getVertex();
+		//mvl::GVector4f* getVertex();
 		
 		/**
 		 * Gets the color associated with this vertex
 		 * @return A reference to the color.
 		 */
-		Vector4f& getColor();
+		mvl::GVector4f& getColor();
 		
 		/**
 		 * Gets the color associated with this vertex
 		 * @return A const reference to the color.
 		 */		
-		const Vector4f& getColor() const;
+		const mvl::GVector4f& getColor() const;
 		
 	private:
 		/**The actual vertex*/
-		Vector4f _vertex;
+		mvl::GVector4f _vertex;
 		/**The color of the vertex*/
-		Vector4f _color;
+		mvl::GVector4f _color;
 };
 
 #endif

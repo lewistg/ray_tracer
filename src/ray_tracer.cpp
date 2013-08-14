@@ -21,15 +21,16 @@
 #include "scene.h"
 #include "plane.h"
 #include "rtriangle.h"
+#include "graphics_vector_utils.h"
 
-RayTracer::RayTracer(const Vector4f& eye, Screen& screen):_eye(eye), _screen(screen)
+RayTracer::RayTracer(const mvl::GVector3f& eye, Screen& screen):_eye(eye), _screen(screen)
 {
     // set the screen one unit in front of the eye centered
 }
 
 void RayTracer::trace(const Scene& scene)
 {
-	Vector4f missColor(0.0f, 0.0, 0.0, 1.0f);
+	mvl::GVector4f missColor(0.0f, 0.0, 0.0, 1.0f);
 
 	for (int x = 0; x < _screen.getWidth(); x++)
 	{
@@ -38,13 +39,13 @@ void RayTracer::trace(const Scene& scene)
 			// anti-alias by shooting 4 rays through each pixel (supersampling)
 			float xCorners[4] = {0, 0, .75, .75};
 			float yCorners[4] = {0, .75, 0, .75};
-			Vector4f averageColor(0.0f, 0.0f, 0.0f, 1.0f);
+			mvl::GVector4f averageColor(0.0f, 0.0f, 0.0f, 1.0f);
 			for (int i = 0; i < STOCHASTIC_ANTIALIASING; i++)
 			{
 				// get the direction from the eye to the pixel
-				Vector4f pixCenter = _screen.getPointInPixel(x, y, xCorners[i], yCorners[i]); //_screen->getPointInPixel(x, y);
-				Vector4f dirToPixel = sub(pixCenter, _eye);
-				normalize(&dirToPixel);
+				mvl::GVector3f pixCenter = _screen.getPointInPixel(x, y, xCorners[i], yCorners[i]); //_screen->getPointInPixel(x, y);
+				mvl::GVector3f dirToPixel = mvl::sub(pixCenter, _eye);
+				dirToPixel.normalize();
 
 				// create a ray that passes through each pixel
 				LightRay pixRay(_eye, dirToPixel, 0);
@@ -58,12 +59,12 @@ void RayTracer::trace(const Scene& scene)
 					//_screen->setPixel(x, y, hitColor);
 					//_screen->setPixel(x, y, object->getColor());
 					//_screen->setPixel(x, y, pixRay.getColor());
-					averageColor = add(averageColor, pixRay.getColor());
+					averageColor = mvl::add(averageColor, pixRay.getColor());
 					//cout << "Hit at: " << t << endl;
 				} 
 				else
 				{
-					averageColor = add(averageColor, missColor);
+					averageColor = mvl::add(averageColor, missColor);
 					//_screen->setPixel(x, y, missColor);
 				}
 			}
