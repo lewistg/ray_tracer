@@ -23,8 +23,6 @@
 #include <fstream>
 #include <math.h>
 #include <pthread.h>
-#include "matrix.h"
-#include "vector.h"
 #include "raster.h"
 #include "screen.h"
 #include "ray_tracer.h"
@@ -33,7 +31,6 @@
 #include "camera.h"
 
 using namespace std;
-using namespace gmath;
 
 /*
  * My ratracer

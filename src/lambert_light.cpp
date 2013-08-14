@@ -15,7 +15,6 @@
  */
 
 #include "lambert_light.h"
-#include "matrix_state.h"
 
 LambertLight::LambertLight()
 	:_diffuseComps(),

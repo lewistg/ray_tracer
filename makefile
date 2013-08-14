@@ -85,7 +85,7 @@ RTOBJS = $(OBJ)main.o \
 gl: $(RTOBJS) 
 	g++ $(CFLAGS) -o $(BIN)gl $(RTOBJS) -lglut -lGLU -lGL -lGLEW
 
-$(OBJ)main.o: $(SRC)main.cpp $(INC)matrix.h
+$(OBJ)main.o: $(SRC)main.cpp 
 	g++ $(CFLAGS) -c -g -o $(OBJ)main.o $(INC_PATHS) $(SRC)main.cpp
 
 # ray tracing algorithm

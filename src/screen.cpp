@@ -16,7 +16,6 @@
 
 #include "screen.h"
 #include "graphics_vector_utils.h"
-#include "vector4f.h"
 
 Screen::Screen(int w, int h, float unitsPerPix, const mvl::GVector3f& center, const mvl::GVector3f& negZ, 
 	const mvl::GVector3f& posY)
