@@ -46,8 +46,8 @@ Screen::Screen(int w, int h, float unitsPerPix, const mvl::GVector3f& center, co
 	ulCornerXOffset.normalize();
     ulCornerXOffset.scale(-wWorldCoords / 2.0f);
     
-    _ulCornerPixCenter = add(center, ulCornerYOffset);
-    _ulCornerPixCenter = add(_ulCornerPixCenter, ulCornerXOffset);
+    _ulCornerPixCenter = mvl::add(center, ulCornerYOffset);
+    _ulCornerPixCenter = mvl::add(_ulCornerPixCenter, ulCornerXOffset);
     x(_ulCornerPixCenter) += _pixDim / 2.0f;
     y(_ulCornerPixCenter) += _pixDim / 2.0f;
     

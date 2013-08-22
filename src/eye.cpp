@@ -15,6 +15,7 @@
  */
 
 #include "eye.h"
+#include "vector_math.h"
 #include "graphics_vector_utils.h"
 
 Eye::Eye()
@@ -38,9 +39,9 @@ Eye::Eye(const mvl::GVector3f& location,
     mvl::GVector3f viewDir = sub(lookAt, location);
     
     // if the look at and  up vector are not already perpendicular
-    if(!closeTo(dot(viewDir, up), 0, .000001))
+    if(!closeTo(mvl::dot(viewDir, up), 0, .000001))
     {
-		mvl::GVector3f sideVector = cross(lookAt, up);
+		mvl::GVector3f sideVector = mvl::cross(lookAt, up);
 		_up = cross(sideVector, viewDir);
     }
     else

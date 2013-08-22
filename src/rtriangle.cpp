@@ -23,7 +23,7 @@ RTriangle::RTriangle(const mvl::GVector3f& p0, const mvl::GVector3f& p1, const m
 	: _p0(p0), 
 	_p1(p1), 
 	_p2(p2), 
-	_plane(p0, cross(sub(p1, p0), sub(p2, p0)))
+	_plane(p0, mvl::cross(sub(p1, p0), sub(p2, p0)))
 {
 }
 

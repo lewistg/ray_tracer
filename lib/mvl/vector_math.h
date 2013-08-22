@@ -37,7 +37,7 @@ namespace mvl
 	 * @return The vector sum
 	 */
 	template <class T>
-	IVector<T> add(const IVector<T>& v0, const IVector<T>& v1)
+	Vector<T> add(const IVector<T>& v0, const IVector<T>& v1)
 	{
 		assert(v0.getDimension() == v1.getDimension());
 
@@ -52,7 +52,7 @@ namespace mvl
 	 * Overloaded addition operator.
 	 */
 	template <class T>
-	IVector<T> operator+(const IVector<T>& v0, const IVector<T>& v1)
+	Vector<T> operator+(const IVector<T>& v0, const IVector<T>& v1)
 	{
 		return add(v0, v1);
 	}
@@ -66,7 +66,7 @@ namespace mvl
 	 * @return The vector difference
 	 */
 	template <class T>
-	IVector<T> sub(const IVector<T>& v0, const IVector<T>& v1)
+	Vector<T> sub(const IVector<T>& v0, const IVector<T>& v1)
 	{
 		assert(v0.getDimension() == v1.getDimension());
 
@@ -81,7 +81,7 @@ namespace mvl
 	 * Overloaded subtraction operator.
 	 */
 	template <class T>
-	IVector<T> operator-(const IVector<T>& v0, const IVector<T>& v1)
+	Vector<T> operator-(const IVector<T>& v0, const IVector<T>& v1)
 	{
 		return sub(v0, v1);
 	}

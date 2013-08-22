@@ -14,6 +14,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include "vector_math.h"
 #include "plane.h"
 
 Plane::Plane(const mvl::GVector3f& pointOnPlane, const mvl::GVector3f& normal):

@@ -17,6 +17,8 @@
 #ifndef _GRAPHICS_VECTOR_UTILS_H_
 #define _GRAPHICS_VECTOR_UTILS_H_
 
+#include <assert.h>
+#include "vector_interface.h"
 #include "graphics_vector.h"
 #include "vector_math.h"
 
@@ -35,73 +37,93 @@ namespace mvl
 	/**
 	 * Returns reference to x component of graphical vector
 	 */
-	template <class T, unsigned int N>
-	T& x(GraphicsVector<T, N>& gVector)
+	template <class T>
+	T& x(IVector<T>& gVector)
 	{
+		assert(gVector.getDimension() >= 1);
 		return gVector[X];
 	}
 
 	/**
 	 * Returns const reference to x component of graphical vector
 	 */
-	template <class T, unsigned int N>
-	const T& x(const GraphicsVector<T, N>& gVector)
+	template <class T>
+	const T& x(const IVector<T>& gVector)
 	{
+		assert(gVector.getDimension() >= 1);
 		return gVector[X];
 	}
 
 	/**
 	 * Returns reference to y component of graphical vector
 	 */
-	template <class T, unsigned int N>
-	T& y(GraphicsVector<T, N>& gVector)
+	template <class T>
+	T& y(IVector<T>& gVector)
 	{
+		assert(gVector.getDimension() >= 2);
 		return gVector[Y];
 	}
 
 	/**
 	 * Returns cosnt reference to y component of graphical vector
 	 */
-	template <class T, unsigned int N>
-	const T& y(const GraphicsVector<T, N>& gVector)
+	template <class T>
+	const T& y(const IVector<T>& gVector)
 	{
+		assert(gVector.getDimension() >= 2);
 		return gVector[Y];
 	}
 
 	/**
 	 * Returns reference to z component of graphical vector
 	 */
-	template <class T, unsigned int N>
-	T& z(GraphicsVector<T, N>& gVector)
+	template <class T>
+	T& z(IVector<T>& gVector)
 	{
+		assert(gVector.getDimension() >= 3);
 		return gVector[Z];
 	}
 
 	/**
 	 * Returns const reference to z component of graphical vector
 	 */
-	template <class T, unsigned int N>
-	const T& z(const GraphicsVector<T, N>& gVector)
+	template <class T>
+	const T& z(const IVector<T>& gVector)
 	{
+		assert(gVector.getDimension() >= 3);
 		return gVector[Z];
 	}
 
 	/**
 	 * Returns reference to w component of graphical vector
 	 */
-	template <class T, unsigned int N>
-	T& w(GraphicsVector<T, N>& gVector)
+	template <class T>
+	T& w(IVector<T>& gVector)
 	{
+		assert(gVector.getDimension() >= 4);
+		return gVector[W];
+	}
+
+	/**
+	 * Returns const reference to w component of graphical vector
+	 */
+	template <class T>
+	const T& w(IVector<T>& gVector)
+	{
+		assert(gVector.getDimension() >= 4);
 		return gVector[W];
 	}
 
 	/**
 	 * Cross product
 	 */
-	template<class S, unsigned int M>
-	GraphicsVector<S, M> cross(const GraphicsVector<S, M>& v0, const GraphicsVector<S, M>& v1)
+	template<class S>
+	GVector3f cross(const IVector<S>& v0, const IVector<S>& v1)
 	{
-		GraphicsVector<S, M> crossProd;
+		assert(v0.getDimension() == 3);
+		assert(v1.getDimension() == 3);
+
+		GVector3f crossProd;
 		x(crossProd) = y(v0) * z(v1) - z(v0) * y(v1);
 		y(crossProd) = z(v0) * x(v1) - x(v0) * z(v1);
 		z(crossProd) = x(v0) * y(v1) - y(v0) * x(v1);

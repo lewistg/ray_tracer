@@ -170,9 +170,6 @@ namespace mvl
 			/**
 			 * Friend utility functions
 			 */
-			template <class S, unsigned int M>
-			friend S dot(const GraphicsVector<S, M>& v0, const GraphicsVector<S, M>& v1);
-
 			template <class S, unsigned int R, unsigned int C>
 			friend GraphicsVector<S, C> mult(const GraphicsMatrix<S, R, C>& m, const GraphicsVector<S, C>& v);
 

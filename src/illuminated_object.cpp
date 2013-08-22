@@ -17,6 +17,7 @@
 #include <memory>
 #include <cmath>
 #include <vector>
+#include "vector_math.h"
 #include "graphics_vector_utils.h"
 #include "illuminated_object.h"
 #include "sphere.h" // TODO: remove
