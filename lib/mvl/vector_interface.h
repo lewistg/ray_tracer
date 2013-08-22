@@ -31,7 +31,9 @@ namespace mvl
 		virtual ~IVector() {}
 
 		/**
-		 * Overloaded assignment operator
+		 * Overloaded assignment operator. Note vectors that implement this
+		 * interface may have fixed dimensions or variable dimensions.
+		 * @pre dimension(rSide) == this vector's dimension
 		 * @param rSide right side of the assignment operator
 		 * @return 
 		 */
@@ -49,38 +51,14 @@ namespace mvl
 		/**
 		 * Scales the matrix
 		 * scaleFactor multiplier for all of the components
-		 * todo: Move this out of the class 
 		 */
 		virtual void scale(T scaleFactor) = 0;
-
-		/**
-		 * Clear entries and sets dimension to 0
-		 * @param components
-		 * @param len
-		 */
-		virtual void clear() = 0;
-
-		/**
-		 * Sets the components of the vector
-		 * @return 
-		 */
-		virtual void setComponents(const T* components, unsigned int len) = 0;
 
 		/**
 		 * Gets the dimension of the vector
 		 * @return a integer indicating the dimension of the Vector
 		 */
 		virtual unsigned int getDimension() const = 0;
-
-		/**
-		 * Resizes the dimension of the vector. If the vector
-		 * has more dimensions than the the new dimension, the
-		 * higher dimension values are sliced off while lower dimensions
-		 * are preserved.
-		 * @param column
-		 * @return 
-		 */
-		virtual void setDimension(unsigned int dimension) = 0;
 
 		/**
 		 * Non-const getter for vector entry 
@@ -99,7 +77,7 @@ namespace mvl
 		/**
 		 * Checks to see if two vectors are equal component wise;
 		 */
-		virtual bool operator ==(const IVector<T>& rSide) = 0;
+		virtual bool operator ==(const IVector<T>& rSide) const = 0;
 
 		/**
 		 * Checks to see if two vectors are in-equal component wise;

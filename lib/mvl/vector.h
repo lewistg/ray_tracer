@@ -17,7 +17,7 @@
 #ifndef _VECTOR_H_
 #define _VECTOR_H_
 
-#include "vector_interface.h"
+#include "var_length_vector_interface.h"
 
 #include <sstream>
 #include <string>
@@ -29,7 +29,7 @@ namespace mvl
 	 * This vector is intended to be for numerical values: doubles, shorts, int 
 	 */
 	template <class T>
-	class Vector: public IVector<T> 
+	class Vector: public IVarLengthVector<T> 
 	{
 	public:
 		/**
@@ -134,7 +134,7 @@ namespace mvl
 		/**
 		 * Checks to see if two vectors are equal component wise;
 		 */
-		virtual bool operator ==(const IVector<T>& rSide);
+		virtual bool operator ==(const IVector<T>& rSide) const;
 
 		/**
 		 * Checks to see if two vectors are in-equal component wise;
@@ -289,7 +289,7 @@ namespace mvl
 	}
 
 	template<class T>
-	bool Vector<T>::operator == (const IVector<T>& rSide)
+	bool Vector<T>::operator == (const IVector<T>& rSide) const
 	{
 		if(_dimension != rSide.getDimension())
 			return false;

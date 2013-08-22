@@ -22,6 +22,7 @@
 #include <assert.h>
 #include "vector.h"
 #include "vector_interface.h" 
+#include "graphics_matrix.h"
 
 namespace mvl 
 {
@@ -31,7 +32,7 @@ namespace mvl
 	 * A vector implementation geared towards graphics
 	 */
 	template <class T, unsigned int N> 
-	class GraphicsVector
+	class GraphicsVector: public IVector<T>
 	{
 		public:
 			/**
@@ -44,10 +45,6 @@ namespace mvl
              */
 			GraphicsVector(const GraphicsVector<T,N>& cpy);
 
-			/**
-			 * Assignment operator
-             */
-			const GraphicsVector<T, N>& operator=(const GraphicsVector<T,N>& rhs);
 
 			/**
 			 * Constructor
@@ -82,7 +79,6 @@ namespace mvl
              */
 			GraphicsVector(const T& xComp, const T& yComp, const T& zComp, const T& wComp);
 
-
 			/**
 			 * Constructor 
 			 */
@@ -94,14 +90,59 @@ namespace mvl
 			~GraphicsVector();
 
 			/**
-			 * Gets the indexed vector component
-			 */		
-			const T& operator[](unsigned int componentIndex) const; 
+			 * Assignment operator
+             */
+			const GraphicsVector<T, N>& operator=(const GraphicsVector<T,N>& rhs);
 
 			/**
-			 * Gets the indexed vector component
-			 */
-			T& operator[](unsigned int componentIndex);
+			 * Override
+             */
+			virtual const IVector<T>& operator =(const IVector<T>& rSide);
+			 
+			/**
+			 * Override
+             */
+			virtual const IVector<T>& operator +=(const IVector<T>& rSide);
+
+			/**
+			 * Override
+             */
+			virtual void scale(T scaleFactor);
+
+			/**
+			 * Override
+             */
+			virtual unsigned int getDimension() const;
+
+			/**
+			 * Override
+             */
+			virtual T& operator[] (unsigned int column);
+
+			/**
+			 * Override
+             */
+			virtual const T& operator[] (unsigned int column) const;
+
+			/**
+			 * Override
+             */
+			virtual bool operator ==(const IVector<T>& rSide) const;
+
+			/**
+			 * Override
+             */
+			virtual bool operator !=(const IVector<T>& rSide);
+
+			/**
+			 * Override
+             */
+			virtual const IVector<T>& operator*=(T scalar);
+
+			/**
+			 * Override
+             */
+			virtual std::string toString() const;
 
 			/**
 			 * Gets the magnitude of the vector
@@ -114,9 +155,10 @@ namespace mvl
 			void normalize();
 
 			/**
-			 * Scales the vector by the given amount
-			 */
-			void scale(T scaleFactor);
+			 * Transforms the vector by the given matrix
+             * @param rawData
+             */
+			void mult(const GraphicsMatrix<T, N + 1, N + 1>& mat);
 
 			/**
 			 * Gets a pointer to the raw vector data
@@ -124,11 +166,6 @@ namespace mvl
              * @return 
              */
 			void getData(T rawData[]) const;
-
-			/**
-			 * Returns a string representation of the graphical vector. 
-			 */
-			std::string toString() const;
 
 			/**
 			 * Friend utility functions
@@ -170,6 +207,26 @@ namespace mvl
 	}
 
 	template<class T, unsigned int N>
+	const IVector<T>& GraphicsVector<T,N>::operator=(const IVector<T>& rSide)
+	{
+		int numComps = std::min(N, rSide.getDimension());
+		for(int i = 0; i < numComps; i++)
+			_vector[i] = rSide[i];
+	}
+
+	template<class T, unsigned int N>
+	const IVector<T>& GraphicsVector<T,N>::operator +=(const IVector<T>& rSide)
+	{
+		_vector += rSide;
+	}
+
+	template<class T, unsigned int N>
+	void GraphicsVector<T,N>::scale(T scaleFactor)
+	{
+		_vector.scale(scaleFactor);
+	}
+
+	template<class T, unsigned int N>
 	GraphicsVector<T,N>::GraphicsVector(const T source[]): _vector(source, N)
 	{
 	}
@@ -191,6 +248,25 @@ namespace mvl
 		assert(componentIndex < N);
 		return _vector[componentIndex];
 	}
+
+	template<class T, unsigned int N>
+	bool GraphicsVector<T, N>::operator ==(const IVector<T>& rSide) const
+	{
+		return _vector == rSide;
+	}
+
+	template<class T, unsigned int N>
+	bool GraphicsVector<T,N>::operator !=(const IVector<T>& rSide)
+	{
+		return _vector != rSide;
+	}
+
+	template<class T, unsigned int N>
+	const IVector<T>& GraphicsVector<T,N>::operator*=(T scalar)
+	{
+		_vector *= scalar;
+	}
+
 
 	template <class T, unsigned int N>
 	T& GraphicsVector<T, N>::operator[](unsigned int componentIndex) 
@@ -224,12 +300,17 @@ namespace mvl
 		for(int i = 0; i < N; i++)
 			_vector[i] /= magnitude;
 	}
+	
+	template <class T, unsigned int N>
+	unsigned int GraphicsVector<T, N>::getDimension() const
+	{
+		assert(_vector.getDimension() == N);
+		return N;
+	}
 
 	template <class T, unsigned int N>
-	void GraphicsVector<T, N>::scale(T scaleFactor)
+	void GraphicsVector<T,N>::mult(const GraphicsMatrix<T, N + 1, N + 1>& mat)
 	{
-		for(int i = 0; i < N; i++)
-			_vector[i] *= scaleFactor;
 	}
 
 	template <class T, unsigned int N>

@@ -115,6 +115,11 @@ namespace mvl
 		 */
 		virtual std::string toString();
 
+		/**
+		 * Transposes the matrix. Attempts to minimize
+		 */
+		void transpose();
+
 
 	private:
 		/**Dimensions of the matrix*/
@@ -328,6 +333,70 @@ namespace mvl
 
 		matrixString += "]";
 		return matrixString;
+	}
+
+	template <class T>
+	void Matrix<T>::transpose()
+	{
+		if(_numCols == 0 && _numRows == 0)	{
+			assert(_mat == nullptr);
+			return;
+		}
+
+		const unsigned int transMatCols = _numRows;
+		
+		// calculates the transposed position of i
+		auto transposeMatIndex = [&](int i) {
+			assert(i < _numCols * _numRows);
+			int row = i / _numCols;
+			int col = i % _numCols;
+
+			int transMatRowIndex = col;
+			int transMatColIndex = row;
+
+			int iTransposed = (transMatRowIndex * transMatCols) + transMatColIndex;
+
+			return iTransposed;
+		};
+
+		bool settledPos[_numCols * _numRows]; 
+		for(int j = 0; j < _numCols * _numRows; j++)
+			settledPos[j] = false;
+
+		for(int i = 0; i < _numRows * _numCols; i++)
+		{
+			if(settledPos[i])
+				continue;
+
+			int toIndex = transposeMatIndex(i);
+			int fromIndex = i; 
+
+			if(toIndex == fromIndex)
+				continue;
+
+			T bumpedValue = _mat[fromIndex];
+			T nextBumpedValue;
+			while(true) 
+			{
+				nextBumpedValue = _mat[toIndex];
+
+				_mat[toIndex] = bumpedValue; 
+				settledPos[toIndex] = true;
+
+				bool completedCycle = (toIndex == i);
+				if(completedCycle)
+					break;
+
+				fromIndex = toIndex;
+				toIndex = transposeMatIndex(fromIndex);
+				bumpedValue = nextBumpedValue; 
+			}
+		}
+		
+		int oldNumRows = _numRows; 
+		_numRows = _numCols;
+		_numCols = oldNumRows;
+		createMatVectors();
 	}
 }
 #endif

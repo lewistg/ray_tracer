@@ -18,7 +18,7 @@
 #define _MATRIX_VECTOR_H_
 
 #include <assert.h>
-#include "vector_interface.h"
+#include "var_length_vector_interface.h"
 
 namespace mvl
 {
@@ -26,7 +26,7 @@ namespace mvl
 	 * This vector can be used as either a row or column of a matrix 
 	 */
 	template <class T>
-	class MatrixVector: public IVector<T>
+	class MatrixVector: public IVarLengthVector<T>
 	{
 	public:
 		/**
@@ -78,7 +78,7 @@ namespace mvl
 		/**
 		 * Override
 		 */
-		void setDimension(unsigned int dimension);
+		virtual void setDimension(unsigned int dimension);
 
 		/**
 		 * Override
@@ -93,7 +93,7 @@ namespace mvl
 		/**
 		 * Override
 		 */
-		virtual bool operator ==(const IVector<T>& rSide);
+		virtual bool operator ==(const IVector<T>& rSide) const;
 
 		/**
 		 * Override
@@ -204,7 +204,7 @@ namespace mvl
 	}
 
 	template <class T>
-	bool MatrixVector<T>::operator ==(const IVector<T>& rSide)
+	bool MatrixVector<T>::operator ==(const IVector<T>& rSide) const
 	{
 		if(getDimension() != rSide.getDimension())
 			return false;

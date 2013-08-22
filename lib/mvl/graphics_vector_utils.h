@@ -96,61 +96,6 @@ namespace mvl
 	}
 
 	/**
-	 * Dot product
-	 */
-	template<class S, unsigned int M>
-	S dot(const GraphicsVector<S, M>& v0, const GraphicsVector<S, M>& v1)
-	{
-		return dot(v0._vector, v1._vector);
-	}
-
-	/**
-	 * Subtract two vectors
-	 */
-	template<class S, unsigned int M>
-	GraphicsVector<S, M> sub(const GraphicsVector<S, M>& v0, const GraphicsVector<S, M>& v1)
-	{
-		GraphicsVector<S,M> difference;
-		for(int i = 0; i < M; i++)
-			difference[i] = v0[i] - v1[i];
-
-		return difference;
-
-	}
-
-	/**
-	 * Operator for subtracting two vectors
-	 */
-	template<class S, unsigned int M>
-	GraphicsVector<S,M> operator-(const GraphicsVector<S, M>& v0, const GraphicsVector<S, M>& v1)
-	{
-		return sub(v0, v1);
-	}
-
-	/**
-	 * Add two vectors
-	 */
-	template<class S, unsigned int M>
-	GraphicsVector<S, M> add(const GraphicsVector<S, M>& v0, const GraphicsVector<S, M>& v1)
-	{
-		GraphicsVector<S,M> sum;
-		for(int i = 0; i < M; i++)
-			sum[i] = v0[i] + v1[i];
-
-		return sum;
-
-	}
-
-	/**
-	 * Operator for adding two vectors
-	 */
-	template<class S, unsigned int M>
-	GraphicsVector<S, M> operator+(const GraphicsVector<S, M>& v0, const GraphicsVector<S, M>& v1)
-	{
-		return add(v0, v1);
-	}
-
-	/**
 	 * Cross product
 	 */
 	template<class S, unsigned int M>
